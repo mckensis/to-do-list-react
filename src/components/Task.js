@@ -2,17 +2,11 @@ import { useContext, useState } from "react";
 import ToDoListContext from "../context/ToDoListContext";
 
 const Task = ({ task }) => {
-  
-  const {
-    tasks,
-    setTasks
-  } = useContext(ToDoListContext);
+
+  const { tasks, setTasks } = useContext(ToDoListContext);
   
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
-  //event listeners
-  //list item: click : change task due date format
-  //list item: mouseleave : change task due date format to default
   const handleChangeTaskPriority = () => {
     task.changePriority();
     const updatedTasks = [...tasks];
@@ -41,7 +35,6 @@ const Task = ({ task }) => {
     <li 
       className={task.isComplete() ? "task-item completed" : "task-item"}
       data-id={task.id}
-      onClick={() => handleToggleDueDateFormat()}
       onMouseLeave={() => setDueDateToggled(false)}
     >
       <div>
@@ -49,7 +42,14 @@ const Task = ({ task }) => {
         <button className={`task-priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
           {task.priorityInWords()}
         </button>
-        <p className={task.isOverdue() ? 'due overdue' : 'due'}>{dueDateToggled ? `Due on ${task.dueDateExact()}` : `Due ${task.dueDateInWords()}`}</p>
+        <p 
+          className={task.isOverdue() ? 'due overdue' : 'due'}
+          onClick={() => handleToggleDueDateFormat()}
+        >
+          {dueDateToggled ?
+            `Due on ${task.dueDateExact()}`
+            : `Due ${task.dueDateInWords()}`
+          }</p>
       </div>
       <p>
         {task.title}

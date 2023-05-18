@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import CreateDefaultList from '../functions/CreateDefaultList';
-import { compareAsc, format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -8,21 +8,47 @@ const ToDoListContext = createContext({});
 // Provider to give access to functions and variables required by components
 export const DataProvider = ({ children }) => {
 
+  const sortTasks = (tasks) => {
+    let temp = [...tasks];
+    let complete = [];
+    let incomplete = [];
+
+    temp.forEach(task => {
+        if (task.isComplete()) {
+            complete.push(task);
+        } else {
+            incomplete.push(task);
+        }
+    });
+
+    //Sort the complete tasks to have most recent at the top
+    let sortedComplete = complete.sort((taskOne, taskTwo) => {
+        return parseISO(taskTwo.dueDate) - parseISO(taskOne.dueDate) || taskTwo.priority - taskOne.priority;
+    });
+
+    //Sort the incomplete tasks to have nearest due date at the top
+    let sortedIncomplete = incomplete.sort((taskOne, taskTwo) => {
+        return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate) || taskTwo.priority - taskOne.priority;
+    });
+
+    let sortedTasks = [...sortedIncomplete, ...sortedComplete];
+    return sortedTasks;
+  }
+
+  const handleFilterTasks = (id) => {
+    const listsCopy = [...lists];
+    const filteredList = listsCopy.filter(list => list.id === id);
+    setTasks(filteredList[0].tasks);
+  }
+
   const createDefaultTasks = () => {
     const allTasks = [];
      lists.forEach(list => {
       list.tasks.forEach(task => {
-        return allTasks.push(task);
+        allTasks.push(task);
       });
     });
-    return allTasks;
-  }
-
-  const checkIfTaskOverdue = (task) => {
-    //Finds out if the task is overdue and not completed to style accordingly
-    if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(task.dueDate)) === 1 && !task.complete) {
-      return true;
-    }
+    return sortTasks(allTasks);
   }
 
   const handleShowListForm = () => {
@@ -47,12 +73,12 @@ export const DataProvider = ({ children }) => {
   const [listFormVisible, setListFormVisible] = useState(false);
   const [lists, setLists] = useState(CreateDefaultList());
   const [tasks, setTasks] = useState(createDefaultTasks());
-  const activeList = null;
 
   return (
     <ToDoListContext.Provider value={{
-      lists, setLists, activeList,
-      tasks, setTasks, checkIfTaskOverdue,
+      lists, setLists,
+      tasks, setTasks, sortTasks,
+      createDefaultTasks, handleFilterTasks,
       taskFormVisible, setTaskFormVisible,
       listFormVisible, setListFormVisible,
       handleShowListForm, handleHideListForm,

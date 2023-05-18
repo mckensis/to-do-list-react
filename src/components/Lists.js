@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import ListItem from "./ListItem";
 import ToDoListContext from "../context/ToDoListContext";
 import List from "../classes/List";
@@ -8,10 +8,16 @@ const Lists = () => {
   const {
     lists,
     setLists,
+    setTasks,
+    createDefaultTasks,
     listFormVisible,
+    handleFilterTasks,
     handleHideListForm,
-    handleShowListForm
+    handleShowListForm,
+    handleHideTaskForm
   } = useContext(ToDoListContext);
+
+  const listRef = useRef();
 
   const handleSubmitListForm = (e) => {
     e.preventDefault();
@@ -25,6 +31,22 @@ const Lists = () => {
     const listsCopy = [...lists];
     setLists([...listsCopy, newList]);
   } 
+
+  const handleSetActiveList = (e) => {
+    const id = e.target.dataset.id;
+    if (!id) return;
+    handleHideTaskForm();
+    handleHideListForm();
+
+    listRef.current.childNodes.forEach(child => {
+      child.classList.remove('active');
+    })
+    e.target.classList.add('active');
+  
+    // Change this to be display the actual tasks once we have those
+    if (id !== 'all') handleFilterTasks(id);
+    if (id === 'all') setTasks(createDefaultTasks());
+  }
 
   return (
     <aside className="list-section">
@@ -60,7 +82,7 @@ const Lists = () => {
 
       {!listFormVisible && <button className="add-new list" onClick={() => handleShowListForm()}>+</button>}
       
-      <ul className="list-container">
+      <ul ref={listRef} className="list-container" onClick={(e) => handleSetActiveList(e)}>
         <li className="list-item active all-tasks-list" data-id="all">All Tasks</li>
         
         {lists.map(list => (

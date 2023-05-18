@@ -5,6 +5,7 @@ import ToDoListContext from "../context/ToDoListContext";
 const Tasks = () => {
   
   const {
+    lists,
     tasks,
     taskFormVisible, 
     handleShowTaskForm,
@@ -14,8 +15,9 @@ const Tasks = () => {
   return (
     <main className="task-section">
       <h2>Tasks</h2>
+
       {taskFormVisible && 
-        <form className="add-task">
+        <form className="add-task" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="task-title">Task Name</label>
             <input className="add-task title" type="text" id="task-title" name="task-title" minLength="1" maxLength="60" required autoComplete="off" />
           <label htmlFor="task-due">Due</label>
@@ -28,6 +30,9 @@ const Tasks = () => {
             </select>
           <label htmlFor="task-list">List</label>
             <select className="add-task list" id="task-list" name="task-list" required>
+            {lists.map(list => (
+              <option key={list.id} value={list.title}>{list.title}</option>
+            ))}
             </select>
           <button type="cancel" name="task-cancel" className="add-task cancel" onClick={() => handleHideTaskForm()}>&#935;</button>
           <button type="submit" name="task-submit" className="add-task confirm">&#10003;</button>
@@ -39,8 +44,8 @@ const Tasks = () => {
       }
 
       {!taskFormVisible && <ul className="task-container">
-        {tasks.length === 0 && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
-        {tasks.map(task => (
+        {tasks?.length === 0 && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
+        {tasks?.map(task => (
           <Task key={task.id} task={task} />
         ))}
       </ul>}
