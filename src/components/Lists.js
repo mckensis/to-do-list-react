@@ -1,31 +1,49 @@
 import { useContext } from "react";
+import ListItem from "./ListItem";
 import ToDoListContext from "../context/ToDoListContext";
+import List from "../classes/List";
 
 const Lists = () => {
 
   const {
+    lists,
+    setLists,
     listFormVisible,
     handleHideListForm,
     handleShowListForm
   } = useContext(ToDoListContext);
+
+  const handleSubmitListForm = (e) => {
+    e.preventDefault();
+    handleAddNewList(e.target['list-title'].value);
+    e.target.reset();
+    handleHideListForm();
+  }
+
+  const handleAddNewList = (title) => {
+    const newList = new List({ title });
+    const listsCopy = [...lists];
+    setLists([...listsCopy, newList]);
+  } 
 
   return (
     <aside className="list-section">
       <h2>Lists</h2>
 
       {listFormVisible && 
-        <form className="add-list" onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="list-name">List Title</label>
-          <input 
-            name="list-name" 
-            id="list-name" 
-            className="add-list"
+        <form className="add-list" onSubmit={(e) => handleSubmitListForm(e)}>
+          <label htmlFor="list-title">List Title</label>
+          <input
+            autoFocus
             type="text" 
+            id="list-title" 
+            name="list-title" 
+            className="add-list"
             minLength="1" 
             maxLength="15" 
             pattern="^[a-zA-Z0-9 ]+" 
-            required
             autoComplete="off"
+            required
           />
           <button 
             type="button" 
@@ -44,6 +62,11 @@ const Lists = () => {
       
       <ul className="list-container">
         <li className="list-item active all-tasks-list" data-id="all">All Tasks</li>
+        
+        {lists.map(list => (
+          <ListItem key={list.id} list={list} />
+        ))}
+        
       </ul>
       <button className="expand">Hide</button>
     </aside>

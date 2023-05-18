@@ -1,9 +1,11 @@
 import { useContext } from "react";
+import Task from "./Task";
 import ToDoListContext from "../context/ToDoListContext";
 
 const Tasks = () => {
-
+  
   const {
+    tasks,
     taskFormVisible, 
     handleShowTaskForm,
     handleHideTaskForm
@@ -19,9 +21,9 @@ const Tasks = () => {
           <label htmlFor="task-due">Due</label>
             <input className="add-task due" name="task-due" type="date" required />
           <label htmlFor="task-priority">Priority</label>
-            <select className="add-task priority" name="task-priority" id="task-priority" required>
+            <select defaultValue={1} className="add-task priority" name="task-priority" id="task-priority" required>
               <option value="2">Urgent</option>
-              <option value="1" selected>Default</option>
+              <option value="1">Default</option>
               <option value="0">Low</option>
             </select>
           <label htmlFor="task-list">List</label>
@@ -36,9 +38,12 @@ const Tasks = () => {
         <button className="add-new task" onClick={() => handleShowTaskForm()}>+</button>
       }
 
-      <ul className="task-container">
-        {!taskFormVisible && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
-      </ul>
+      {!taskFormVisible && <ul className="task-container">
+        {tasks.length === 0 && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
+        {tasks.map(task => (
+          <Task key={task.id} task={task} />
+        ))}
+      </ul>}
     </main>
 
   )
