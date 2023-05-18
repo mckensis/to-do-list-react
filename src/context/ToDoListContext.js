@@ -26,12 +26,9 @@ export const DataProvider = ({ children }) => {
   const handleHideTaskForm = () => {
     setTaskFormVisible(false);
   };
-  // Put states here
-  // Put functions here
 
   return (
     <ToDoListContext.Provider value={{
-      // put variables, functions, states, etc. here
       taskFormVisible, setTaskFormVisible,
       listFormVisible, setListFormVisible,
       handleShowListForm, handleHideListForm,
