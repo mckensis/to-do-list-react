@@ -171,6 +171,7 @@ form button {
 }
 
 label {
+  user-select: none;
   flex-basis: 100%;
   font-size: 1.2rem;
   font-style: italic;
@@ -354,6 +355,10 @@ input[type="date"] {
   min-height: 2rem;
   padding: 0.5rem 0.25rem;
   border: 1px solid black;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
 }
 
 /* Checkbox style */

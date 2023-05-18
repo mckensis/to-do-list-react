@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import ListItem from "./ListItem";
 import ToDoListContext from "../context/ToDoListContext";
 import List from "../classes/List";
@@ -7,6 +7,7 @@ const Lists = () => {
 
   const {
     lists,
+    listRef,
     setLists,
     setTasks,
     createDefaultTasks,
@@ -16,8 +17,6 @@ const Lists = () => {
     handleShowListForm,
     handleHideTaskForm
   } = useContext(ToDoListContext);
-
-  const listRef = useRef();
 
   const handleSubmitListForm = (e) => {
     e.preventDefault();

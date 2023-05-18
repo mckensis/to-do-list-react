@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
 import CreateDefaultList from '../functions/CreateDefaultList';
 import { parseISO } from "date-fns";
 
@@ -74,9 +74,11 @@ export const DataProvider = ({ children }) => {
   const [lists, setLists] = useState(CreateDefaultList());
   const [tasks, setTasks] = useState(createDefaultTasks());
 
+  const listRef = useRef();
+
   return (
     <ToDoListContext.Provider value={{
-      lists, setLists,
+      lists, setLists, listRef,
       tasks, setTasks, sortTasks,
       createDefaultTasks, handleFilterTasks,
       taskFormVisible, setTaskFormVisible,
