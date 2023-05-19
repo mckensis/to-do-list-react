@@ -5,23 +5,10 @@ const TaskForm = () => {
   
   const {
     lists,
-    listRef,
+    getActiveList,
     handleHideTaskForm
   } = useContext(ToDoListContext);
 
-  const getActiveList = () => {
-    if (!listRef || !listRef.current) return;
-    const children = Array.from(listRef.current.children);
-    let active = null;
-    children.forEach(child => {
-      console.log(child.classList);
-      if (child.classList.contains('active')) {
-        active = child.dataset.id;
-      }
-    });
-    return active;
-  }
-  
   return (
     <form className="task" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="task-title">Task Name</label>
@@ -40,8 +27,8 @@ const TaskForm = () => {
           <option key={list.id} value={list.id}>{list.title}</option>
         ))}
         </select>
-      <button type="cancel" className="cancel" onClick={() => handleHideTaskForm()}>&#935;</button>
-      <button type="submit" className="confirm">&#10003;</button>
+      <button type="cancel" className="cancel" onClick={() => handleHideTaskForm()}>&#10007;</button>
+      <button type="submit" className="confirm">&#10004;</button>
     </form>
   )
 }

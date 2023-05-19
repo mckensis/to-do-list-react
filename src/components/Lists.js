@@ -43,14 +43,13 @@ const Lists = () => {
         <button type="button" className="add list" onClick={() => handleShowListForm()}>+</button>}
       
       <ul ref={listRef} className="list-container" onClick={(e) => handleSetActiveList(e)}>
-        <li className="list-item active all-tasks-list" data-id="all">All Tasks</li>
+        <li className="list-item active" data-id="all">All Tasks</li>
         
         {lists.map(list => (
           <ListItem key={list.id} list={list} />
-        ))}
-        
+        ))}        
       </ul>
-      <button className="expand">Hide</button>
+      <button type="button" className="expand">Hide</button>
     </aside>
   )
 }

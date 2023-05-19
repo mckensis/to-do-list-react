@@ -34,13 +34,13 @@ export const DataProvider = ({ children }) => {
 
     let sortedTasks = [...sortedIncomplete, ...sortedComplete];
     return sortedTasks;
-  }
+  };
 
   const handleFilterTasks = (id) => {
     const listsCopy = [...lists];
     const filteredList = listsCopy.filter(list => list.id === id);
     setTasks(filteredList[0].tasks);
-  }
+  };
 
   const createDefaultTasks = () => {
     const allTasks = [];
@@ -50,7 +50,7 @@ export const DataProvider = ({ children }) => {
       });
     });
     return sortTasks(allTasks);
-  }
+  };
 
   const handleShowListForm = () => {
     handleHideTaskForm();
@@ -75,17 +75,30 @@ export const DataProvider = ({ children }) => {
     handleAddNewList(e.target['list-title'].value);
     e.target.reset();
     handleHideListForm();
-  }
+  };
 
   const handleAddNewList = (title) => {
     const newList = new List({ title });
     const listsCopy = [...lists];
     setLists([...listsCopy, newList]);
-  }
+  };
 
+  const getActiveList = () => {
+    if (!listRef || !listRef.current) return;
+    const children = Array.from(listRef.current.children);
+    let active = null;
+    children.forEach(child => {
+      console.log(child.classList);
+      if (child.classList.contains('active')) {
+        active = child.dataset.id;
+      }
+    });
+    return active;
+  };
 
   const [taskFormVisible, setTaskFormVisible] = useState(false);
   const [listFormVisible, setListFormVisible] = useState(false);
+
   const [lists, setLists] = useState(CreateDefaultList());
   const [tasks, setTasks] = useState(createDefaultTasks());
 
@@ -101,6 +114,7 @@ export const DataProvider = ({ children }) => {
       handleShowListForm, handleHideListForm,
       handleSubmitListForm,
       handleShowTaskForm, handleHideTaskForm,
+      getActiveList
     }}>
       {children}
     </ToDoListContext.Provider>

@@ -19,9 +19,9 @@ const ListForm = () => {
         type="text"
         id="list-title" 
         name="list-title"
-        minLength="1" 
-        maxLength="15" 
-        pattern="^[a-zA-Z0-9 ]+" 
+        minLength="1"
+        maxLength="15"
+        pattern="^[a-zA-Z0-9 ]+"
         autoComplete="off"
         required
       />
@@ -30,13 +30,13 @@ const ListForm = () => {
         className="cancel"
         onClick={() => handleHideListForm()}
       >
-        &#935;
+        &#10007;
       </button>
       <button 
         type="submit"
         className="confirm"
       >
-        &#10003;
+        &#10004;
       </button>
     </form>
   )
