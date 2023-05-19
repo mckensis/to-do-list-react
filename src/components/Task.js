@@ -39,7 +39,7 @@ const Task = ({ task }) => {
     >
       <div>
         <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
-        <button className={`task-priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
+        <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
           {task.priorityInWords()}
         </button>
         <p 
@@ -49,12 +49,13 @@ const Task = ({ task }) => {
           {dueDateToggled ?
             `Due on ${task.dueDateExact()}`
             : `Due ${task.dueDateInWords()}`
-          }</p>
+          }
+        </p>
       </div>
       <p>
         {task.title}
       </p>
-      <button type="button" className="task-delete" onClick={() => handleTaskDeletion()}></button>
+      <button type="button" className="delete task" onClick={() => handleTaskDeletion()}></button>
     </li>
   )
 }

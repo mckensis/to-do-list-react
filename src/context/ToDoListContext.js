@@ -1,6 +1,7 @@
 import { createContext, useRef, useState } from "react";
 import CreateDefaultList from '../functions/CreateDefaultList';
 import { parseISO } from "date-fns";
+import List from "../classes/List";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -69,6 +70,20 @@ export const DataProvider = ({ children }) => {
     setTaskFormVisible(false);
   };
 
+  const handleSubmitListForm = (e) => {
+    e.preventDefault();
+    handleAddNewList(e.target['list-title'].value);
+    e.target.reset();
+    handleHideListForm();
+  }
+
+  const handleAddNewList = (title) => {
+    const newList = new List({ title });
+    const listsCopy = [...lists];
+    setLists([...listsCopy, newList]);
+  }
+
+
   const [taskFormVisible, setTaskFormVisible] = useState(false);
   const [listFormVisible, setListFormVisible] = useState(false);
   const [lists, setLists] = useState(CreateDefaultList());
@@ -84,6 +99,7 @@ export const DataProvider = ({ children }) => {
       taskFormVisible, setTaskFormVisible,
       listFormVisible, setListFormVisible,
       handleShowListForm, handleHideListForm,
+      handleSubmitListForm,
       handleShowTaskForm, handleHideTaskForm,
     }}>
       {children}

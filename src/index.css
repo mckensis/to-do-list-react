@@ -68,13 +68,10 @@
   cursor: default;
 }
 
-html {
-  background: url('./images/background.jpg');
-}
-
 body {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  background: url('./images/background.jpg');
 }
 
 #root {
@@ -108,25 +105,25 @@ header img {
   border-radius: 50%;
 }
 
+h1, 
+h2 {
+  font-family: 'Joseph Sophia', cursive;
+  font-weight: 200;
+  font-size: 3.5rem;
+  text-align: center;
+}
+
 h1 {
   position: relative;
   top: 0.5rem;
-  font-family: 'Joseph Sophia', cursive;
-  font-weight: 200;
   letter-spacing: 0.25rem;
-  text-align: center;
-  font-size: 3.5rem;
   line-height: 3rem;
 }
 
 h2 {
   text-transform: lowercase;
-  line-height: 2rem;
-  font-family: 'Joseph Sophia', cursive;
-  font-weight: 200;
   letter-spacing: 0.1rem;
-  text-align: center;
-  font-size: 3.5rem;
+  line-height: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -157,7 +154,7 @@ form {
   padding: 0.75rem;
 }
 
-form.add-task {
+form.task {
   background-color: var(--palette-color-primary-hover-dark);
 }
 
@@ -186,9 +183,9 @@ button {
 }
 
 /* (+) button */
-button.add-new {
+button.add {
   align-self: center;
-  height: 3.5rem;
+  height: 3rem;
   width: 80%;
   max-width: 30rem;
   font-size: 2.3rem;
@@ -201,17 +198,15 @@ button.add-new {
 }
 
 /* (+) task button */ 
-button.add-new.task {
+button.add.task {
   color: var(--palette-color-primary);
 }
 
-button.add-task.confirm,
-button.add-list.confirm {
+button.confirm {
   background-color: var(--priority-low);
 }
 
-button.add-task.cancel,
-button.add-list.cancel {
+button.cancel {
   background-color: var(--priority-high);
 }
 
@@ -226,23 +221,30 @@ button.user {
   border: none;
 }
 
-/* Delete button for list item */
-button.list-delete {
-  appearance: none;
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform-origin: center;
-  transform: translateY(-50%);
-  width: 1.75rem;
-  height: 100%;
-  border: none;
+button.delete {
   outline: none;
+  border: none;
+  right: 1rem;
+  width: 1.75rem;
+  height: 1.75rem;
   background-color: transparent;
-  background-image: url('./images/icons/trash-light.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+button.delete.list {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: center;
+  background-image: url('./images/icons/trash-light.png');
+}
+
+button.delete.task {
+  top: 1rem;
+  background-image: url('./images/icons/trash.png');
+  align-self: end;
 }
 
 /* Expand / Hide button */
@@ -269,24 +271,8 @@ button.expand {
   font-weight: 400;
 }
 
-button.task-delete {
-  background-image: url('./images/icons/trash.png');
-  outline: none;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  align-self: end;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  top: 1rem;
-  right: 1rem;
-}
-
 /* Default priority button */
-button.task-priority {
+button.priority {
   appearance: none;
   width: 5.5rem;
   padding: 0.5rem 0;
@@ -300,23 +286,23 @@ button.task-priority {
 }
 
 /* Low priority tasks */
-button.task-priority.p0 {
+button.priority.p0 {
   background-color: var(--priority-low);
 }
 
 /* Default priority tasks */
-button.task-priority.p1 {
+button.priority.p1 {
   color: black;
   background-color: var(--priority-default);
 }
 
 /* High priority tasks */
-button.task-priority.p2 {
+button.priority.p2 {
   background-color: var(--priority-high);
 }
 
 /* Priority button on completed task */
-.task-item.completed button.task-priority {
+.task-item.completed button.priority {
   background-color: var(--box-shadow-color);
   color: var(--palette-light);
 }
@@ -433,7 +419,6 @@ input[type=checkbox]:checked:after {
 }
 
 .empty-list {
-  list-style: none;
   text-align: center;
   margin-bottom: 0.5rem;
   padding: 1rem;
@@ -441,7 +426,7 @@ input[type=checkbox]:checked:after {
   place-items: center;
 }
 
-.task-section .task-item {
+.task-item {
   display: grid;
   grid-template-columns: 1fr max-content;
   grid-template-rows: repeat(2, max-content);
@@ -462,21 +447,17 @@ input[type=checkbox]:checked:after {
   opacity: 0.7;
 }
 
-.task-item .overdue  {
+p.overdue  {
   color: red;
   font-weight: 400;
 }
 
-p.due:hover {
-  cursor: pointer;
-}
-
-.task-section .task-item p {
+.task-item p {
   user-select: none;
 }
 
 /* Top section of the task i.e. completed, priority, due */
-.task-item div {
+.task-item > div {
   grid-column: 1 / -1;
   display: grid;
   align-items: center;
@@ -486,7 +467,7 @@ p.due:hover {
 }
 
 /* Due date */
-.task-item div :nth-last-child(1) {
+p.due {
   text-align: right;
   margin-left: auto;
   font-size: 0.8rem;
@@ -508,6 +489,10 @@ p.due:hover {
     cursor:text;
   }
 
+  p.due:hover {
+    cursor: pointer;
+  }
+
   .list-item {  
     background: linear-gradient(to right, var(--palette-color-secondary-hover) 50%, white 50%);
     background-size: 200% 100%;
@@ -527,21 +512,21 @@ p.due:hover {
     background: none;
   }
 
-  .task-section .task-item:hover:not(.task-item.completed) {
+  .task-item:hover:not(.task-item.completed) {
     background-color: var(--palette-color-primary-hover);
   }
 
-  button.add-new {
+  button.add {
     transition: background-color 0.5s ease, color 0.5s ease;
   }
   
-  button.add-new.list:hover {
+  button.add.list:hover {
     transition: background-color 0.5s ease, color 0.5s ease;
     background-color: var(--palette-color-secondary-hover-dark);
     color: var(--palette-light);
   }
 
-  button.add-new.task:hover {
+  button.add.task:hover {
     transition: background-color 0.5s ease, color 0.5s ease;
     background-color: var(--palette-color-primary-hover-dark);
     color: var(--palette-light);
@@ -554,29 +539,29 @@ p.due:hover {
     transition: letter-spacing 0.5s ease, font-weight 0.2s ease;
   }
 
-  button.list-delete {
+  button.delete.list {
     transition: transform 0.5s ease;
   }
 
-  button.list-delete:hover {
+  button.delete.list:hover {
     transition: transform 0.5s ease;
     transform: translateY(-50%) scale(1.2);
   }
 
-  button.task-delete {
+  button.delete.task {
     transition: transform 0.5s ease;
   }
 
-  button.task-delete:hover {
+  button.delete.task:hover {
     transition: transform 0.5s ease;
     transform: scale(1.2);
   }
 
-  button.task-priority {
+  button.priority {
     transition: transform 0.25s ease;
   }
 
-  .task-item button.task-priority:hover {
+  button.priority:hover {
     transform: scale(1.05);
     transition: transform 0.5s ease;
   }
@@ -609,7 +594,6 @@ p.due:hover {
 
     appearance: none;
     transform-origin: center;
-
     content: '\2713';
     opacity: 0.5;
     color: var(--priority-high);
@@ -659,15 +643,6 @@ p.due:hover {
     }
   }
 
-  @keyframes height {
-    0% {
-      max-height: 0vh;
-    }
-    100% {
-      max-height: 80vh;
-    }
-  }
-
   form {
     animation-name: scale;
     animation-fill-mode: both;
@@ -681,6 +656,14 @@ p.due:hover {
     animation-fill-mode: both;
     animation-direction: alternate;
     animation-duration: 0.25s;
+    animation-timing-function: ease-in;
+  }
+  
+  button.add-new {  
+    animation-name: scale;
+    animation-fill-mode: both;
+    animation-direction: alternate;
+    animation-duration: 0.1s;
     animation-timing-function: ease-in;
   }
 
@@ -705,8 +688,7 @@ p.due:hover {
     height: 80vh;
   }
   
-  .list-section .list-container,
-  .list-section .list-container.hidden {
+  .list-section .list-container {
     display: grid;
     overflow-y: scroll;
     margin-left: 1.25rem;

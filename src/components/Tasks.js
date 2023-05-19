@@ -17,7 +17,7 @@ const Tasks = () => {
       {taskFormVisible && <TaskForm/>}
 
       {!taskFormVisible && 
-        <button className="add-new task" onClick={() => handleShowTaskForm()}>+</button>
+        <button type="button" className="add task" onClick={() => handleShowTaskForm()}>+</button>
       }
 
       {!taskFormVisible && <ul className="task-container">
