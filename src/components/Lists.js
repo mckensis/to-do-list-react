@@ -14,24 +14,9 @@ const Lists = () => {
     handleFilterTasks,
     handleHideListForm,
     handleShowListForm,
-    handleHideTaskForm
+    handleHideTaskForm,
+    handleSetActiveList,
   } = useContext(ToDoListContext);
-
-  const handleSetActiveList = (e) => {
-    const id = e.target.dataset.id;
-    if (!id) return;
-    handleHideTaskForm();
-    handleHideListForm();
-
-    listRef.current.childNodes.forEach(child => {
-      child.classList.remove('active');
-    });
-    e.target.classList.add('active');
-  
-    if (id !== 'all') handleFilterTasks(id);
-    // Change this to be display the actual tasks once we have those
-    if (id === 'all') setTasks(createDefaultTasks());
-  }
 
   return (
     <aside className="list-section">
@@ -42,7 +27,7 @@ const Lists = () => {
       {!listFormVisible && 
         <button type="button" className="add list" onClick={() => handleShowListForm()}>+</button>}
       
-      <ul ref={listRef} className="list-container" onClick={(e) => handleSetActiveList(e)}>
+      <ul ref={listRef} className="list-container" onClick={(e) => handleSetActiveList(e.target.dataset.id)}>
         <li className="list-item active" data-id="all">All Tasks</li>
         
         {lists.map(list => (

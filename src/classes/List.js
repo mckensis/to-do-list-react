@@ -1,5 +1,4 @@
 import Task from "./Task";
-import format from "date-fns/format";
 import {v4 as uuid} from 'uuid';
 
 class List {
@@ -15,16 +14,10 @@ class List {
   }
 
   create(item) {
-    let year = item.dueDate.year;
-    let month = String(Number(item.dueDate.month - 1));
-    let day = item.dueDate.day;
-
-    let date = format(new Date(year, month, day), 'yyyy-MM-dd');
-    
     const task = new Task({
         title: item.title,
-        dueDate: date,
-        priority: item.priority,
+        dueDate: item.dueDate,
+        priority: item.priority || null,
         complete: item.complete,
         overdue: item.overdue,
         id: item.id,

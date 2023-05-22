@@ -6,23 +6,23 @@ class Task {
     this.owner = task.owner || null;
     this.title = task.title;
     this.dueDate = task.dueDate;
-    this.priority = task.priority;
-    this.complete = task.complete;
-    this.overdue = task.overdue || false;
+    this.priority = task.priority || 1;
+    this.complete = task.complete || false;
+    this.overdue = this.isOverdue();
     this.id = task.id || uuid();
   }
 
-  dueDateExact() {
+  describeDueDateExact() {
     return parseISO(this.dueDate).toDateString();
   }
 
-  dueDateInWords() {
+  describeDueDateSimple() {
     let date = formatDistance(parseISO(this.dueDate), parseISO(format(new Date(), 'yyyy-MM-dd')), {addSuffix: true});
     if (date === 'less than a minute ago') date = 'today';
     return date;
   }
 
-  priorityInWords() {
+  describePriorityInWords() {
     switch (this.priority) {
       case 0:
         return "Low";
@@ -35,35 +35,25 @@ class Task {
     }
   }
 
-  isOverdue() {
-    if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(this.dueDate)) === 1 && !this.complete) {
-      this.overdue = true;
-      return this.overdue;
-    }
-    return false;
-  }
-
   isComplete() {
     return this.complete ? true : false;
   }
 
-  // Can't change task priority if the task is complete
-  changePriority() {
-    if (this.complete) return;
-    this.priority < 2 ? this.priority++ : this.priority = 0;
-    console.log(this.priority);
-  }
-
-  saveIndex(index) {
-    this.index = index;
-  }
-
-  returnIndex() {
-    return this.index;
+  isOverdue() {
+    if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(this.dueDate)) === 1 && !this.complete) {
+      return this.overdue = true;
+    }
+    return false;
   }
 
   toggleComplete() {
     this.complete = !this.complete;
+  }
+
+  // Can't change task priority if the task is complete
+  updatePriority() {
+    if (this.complete) return;
+    this.priority < 2 ? this.priority++ : this.priority = 0;
   }
 }
 

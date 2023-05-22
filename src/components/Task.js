@@ -4,11 +4,10 @@ import ToDoListContext from "../context/ToDoListContext";
 const Task = ({ task }) => {
 
   const { tasks, setTasks } = useContext(ToDoListContext);
-  
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
   const handleChangeTaskPriority = () => {
-    task.changePriority();
+    task.updatePriority();
     const updatedTasks = [...tasks];
     updatedTasks.map((existingTask) => existingTask.id === task.id ? existingTask.priority = task.priority : existingTask);
     setTasks(updatedTasks);
@@ -40,15 +39,15 @@ const Task = ({ task }) => {
       <div>
         <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
         <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
-          {task.priorityInWords()}
+          {task.describePriorityInWords()}
         </button>
-        <p 
-          className={task.isOverdue() ? 'due overdue' : 'due'}
+        <p
+          className={task.overdue ? 'due overdue' : 'due'}
           onClick={() => handleToggleDueDateFormat()}
         >
           {dueDateToggled ?
-            `Due on ${task.dueDateExact()}`
-            : `Due ${task.dueDateInWords()}`
+            `Due on ${task.describeDueDateExact()}`
+            : `Due ${task.describeDueDateSimple()}`
           }
         </p>
       </div>

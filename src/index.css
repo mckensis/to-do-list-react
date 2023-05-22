@@ -146,7 +146,7 @@ form {
   margin-bottom: 1rem;
   font-weight: 400;
   border: none;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
   column-gap: 0.25rem;
   border-radius: 1.5rem;
   background-color: var(--palette-color-secondary-hover);
@@ -168,12 +168,22 @@ form button {
 }
 
 label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   user-select: none;
   flex-basis: 100%;
   font-size: 1.2rem;
   font-style: italic;
   text-align: center;
-  width: 100%;
+}
+
+p[role="alert"] {
+  text-align: right;
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--box-shadow-color);
 }
 
 /* Default Button styles */
@@ -308,29 +318,18 @@ button.priority.p2 {
 }
 
 input {
+  appearance: none;
   flex-basis: 100%;
   font-size: 1rem;
   padding: 0.5rem 0.25rem;
-  border: 1px solid black;
-}
-
-input.acceptable {
-  border: 3px solid var(--priority-low);
-}
-
-input.unacceptable {
-  appearance: none;
-  color: var(--priority-high);
+  border: none;
+  outline: 1px solid black;
 }
 
 input:focus,
 select:focus {
   appearance: none;
-  outline: 2px solid black;
-}
-
-input:valid:not(input[type="date"]):not(input[type="checkbox"]) {
-  outline-color: var(--priority-low);
+  outline-width: 2px;
 }
 
 select,
@@ -340,7 +339,7 @@ input[type="date"] {
   flex-basis: 100%;
   min-height: 2rem;
   padding: 0.5rem 0.25rem;
-  border: 1px solid black;
+  outline: 1px solid black;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -566,27 +565,6 @@ p.due {
     transition: transform 0.5s ease;
   }
 
-  /* Checkbox style */
-  input[type=checkbox]:hover {
-    -webkit-appearance: none;
-    -webkit-display: grid;
-    -webkit-position: relative;
-    -webkit-place-content: center;
-    -webkit-font-size: 1.8rem;
-    -webkit-width: 1rem;
-    -webkit-height: 1rem;
-    -webkit-outline: 2px solid black;
-      
-    appearance: none;
-    display: grid;
-    position: relative;
-    place-content: center;
-    font-size: 1.8rem;
-    width: 1rem;
-    height: 1rem;
-    outline: 2px solid black;
-  }
-
   /* Checkbox checkmark */
   input[type=checkbox]:not(:checked):hover:after {
     -webkit-appearance: none;
@@ -595,8 +573,12 @@ p.due {
     appearance: none;
     transform-origin: center;
     content: '\2713';
-    opacity: 0.5;
+    opacity: 0.75;
     color: var(--priority-high);
+  }
+
+  input[type="checkbox"]:checked:hover:after {
+    opacity: 0.5;
   }
 
   /* Scrollbar */
@@ -700,7 +682,7 @@ p.due {
   
   .task-section {
     position: relative;
-    min-height: 80vh;
+    height: auto;
     max-height: 80vh;
   }
 
