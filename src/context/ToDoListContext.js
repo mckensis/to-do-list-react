@@ -46,6 +46,7 @@ export const DataProvider = ({ children }) => {
 
   const createDefaultTasks = () => {
     const allTasks = [];
+    console.log(lists);
      lists.forEach(list => {
       list.tasks.forEach(task => {
         allTasks.push(task);
@@ -105,6 +106,7 @@ export const DataProvider = ({ children }) => {
     handleSetActiveList(data.list);
   };
 
+  // Sets tasks based on the active list
   const handleSetActiveList = (id) => {
     if (!id) return;
     handleHideTaskForm();
@@ -115,7 +117,6 @@ export const DataProvider = ({ children }) => {
       if (child.dataset.id === id) child.classList.add('active'); 
     });
 
-    
     if (id !== 'all') {
       const activeList = handleFilterTasks(id);
       setTasks(sortTasks(activeList.tasks));
@@ -141,11 +142,13 @@ export const DataProvider = ({ children }) => {
 
   const [lists, setLists] = useState(CreateDefaultList());
   const [tasks, setTasks] = useState(createDefaultTasks());
+  const [user, setUser] = useState(null);
 
   const listRef = useRef();
 
   return (
     <ToDoListContext.Provider value={{
+      user, setUser,
       lists, setLists, listRef,
       tasks, setTasks, sortTasks,
       createDefaultTasks, handleFilterTasks,

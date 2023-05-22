@@ -8,13 +8,8 @@ const Lists = () => {
   const {
     lists,
     listRef,
-    setTasks,
-    createDefaultTasks,
     listFormVisible,
-    handleFilterTasks,
-    handleHideListForm,
     handleShowListForm,
-    handleHideTaskForm,
     handleSetActiveList,
   } = useContext(ToDoListContext);
 
