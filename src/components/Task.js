@@ -14,43 +14,44 @@ const Task = ({ task }) => {
   
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
-  const handleChangeTaskPriority = (task) => {
-    task.updatePriority();
+  const saveAndSetTasks = ({ foundList, listsCopy, taskToUpdate }) => {
+    const tasksCopy = [ ...foundList['tasks'] ];
+    const updatedTasks = tasksCopy.map(foundTask => foundTask.id === task.id ? foundTask = task : foundTask);
+    foundList.tasks = updatedTasks;
+    const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
+    setLists(updatedLists);
+  }
 
+  const handleChangeTaskPriority = (taskToUpdate) => {
+    
     const listsCopy = [...lists];
-    const foundList = listsCopy.find(list => list.id === task.list);
-
+    const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
+    
     if (!foundList) {
       console.log("Error finding the list to update a task priority in.");
       return;
     }
+    
+    task.updatePriority();
+    saveAndSetTasks({ foundList, listsCopy, taskToUpdate });
 
-    const tasksCopy = [ ...foundList['tasks'] ];
-    const updatedTasks = tasksCopy.map(foundTask => foundTask.id === task.id ? foundTask = task : foundTask);
-    foundList.tasks = updatedTasks;
-  
-    const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
-  
-    setLists(updatedLists);
-
-    // if (!activeList.id) {
-    //   handleSetActiveListToAllTasks();
-    //   return;
-    // } 
-
-    // handleSetActiveList(activeList.id);
   }
   
   const handleToggleDueDateFormat = () => {
     setDueDateToggled(!dueDateToggled);
   }
 
-  const handleToggleTaskCompletion = () => {
-    return;
-    // task.toggleComplete();
-    // const tasksCopy = [...tasks];
-    // tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
-    // setTasks(tasksCopy);
+  const handleToggleTaskCompletion = (taskToUpdate) => {
+    const listsCopy = [...lists];
+    const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
+    
+    if (!foundList) {
+      console.log("Error finding the list to update a task completion status in.");
+      return;
+    }
+    
+    task.toggleComplete();
+    saveAndSetTasks({ foundList, listsCopy, taskToUpdate });
   }
 
   return (
@@ -60,7 +61,7 @@ const Task = ({ task }) => {
       onMouseLeave={() => setDueDateToggled(false)}
     >
       <div>
-        <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
+        <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion(task)} />
         <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority(task)}>
           {task.describePriorityInWords()}
         </button>
