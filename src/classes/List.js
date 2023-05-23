@@ -1,10 +1,11 @@
+import { toHaveStyle } from "@testing-library/jest-dom/dist/matchers";
 import Task from "./Task";
 import {v4 as uuid} from 'uuid';
 
 class List {
-  constructor({ title, id, owner }) {
+  constructor({ title, id, owner, tasks }) {
     this.title = title;
-    this.tasks = [];
+    this.tasks = tasks || [];
     this.id = id || uuid();
     this.owner = owner || 'Aidan';
   }
@@ -15,12 +16,12 @@ class List {
 
   create(item) {
     const task = new Task({
-        title: item.title,
-        dueDate: item.dueDate,
-        priority: item.priority || null,
-        complete: item.complete,
-        overdue: item.overdue,
-        id: item.id,
+      id: item.id,
+      title: item.title,
+      due: item.due,
+      priority: item.priority,
+      list: item.list,
+      complete: item.complete
     });        
     this._store(task);
   }

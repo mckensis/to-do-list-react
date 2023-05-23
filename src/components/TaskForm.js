@@ -7,7 +7,7 @@ const TaskForm = () => {
   
   const {
     lists,
-    getActiveList,
+    activeList,
     handleHideTaskForm,
     handleSubmitTaskForm
   } = useContext(ToDoListContext);
@@ -63,7 +63,7 @@ const TaskForm = () => {
         <select
           id="task-list"
           name="task-list"
-          defaultValue={getActiveList()}
+          defaultValue={activeList.id}
           { ...register('list', { required: true }) }
           >
           {lists.map(list => (

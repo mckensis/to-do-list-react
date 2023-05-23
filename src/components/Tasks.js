@@ -6,7 +6,7 @@ import ToDoListContext from "../context/ToDoListContext";
 const Tasks = () => {
   
   const {
-    tasks,
+    activeList,
     taskFormVisible, 
     handleShowTaskForm,
   } = useContext(ToDoListContext);
@@ -21,10 +21,16 @@ const Tasks = () => {
       }
 
       {!taskFormVisible && <ul className="task-container">
-        {tasks?.length === 0 && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
-        {tasks?.map(task => (
+        {(activeList?.tasks?.length === 0 || !activeList) && <li className="empty-list" key="empty-list">No Tasks Found!</li>}
+
+        {activeList?.tasks.map(task => (
           <Task key={task.id} task={task} />
         ))}
+
+        {/* {(tasks?.length === 0 || !tasks) && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
+        {tasks?.map(task => (
+          <Task key={task.id} task={task} />
+        ))} */}
       </ul>}
     </main>
 

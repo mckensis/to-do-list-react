@@ -2,22 +2,23 @@ import { compareAsc, format, formatDistance, parseISO } from 'date-fns';
 import {v4 as uuid} from 'uuid';
 
 class Task {
-  constructor(task) {
-    this.owner = task.owner || null;
-    this.title = task.title;
-    this.dueDate = task.dueDate;
-    this.priority = task.priority || 1;
-    this.complete = task.complete || false;
+  constructor({ title, due, priority, complete, id, list, owner }) {
+    this.id = id || uuid();
+    this.title = title;
+    this.due = due;
+    this.priority = priority || 1;
+    this.complete = complete || false;
     this.overdue = this.isOverdue();
-    this.id = task.id || uuid();
+    this.owner = owner || null;
+    this.list = list
   }
 
   describeDueDateExact() {
-    return parseISO(this.dueDate).toDateString();
+    return parseISO(this.due).toDateString();
   }
 
   describeDueDateSimple() {
-    let date = formatDistance(parseISO(this.dueDate), parseISO(format(new Date(), 'yyyy-MM-dd')), {addSuffix: true});
+    let date = formatDistance(parseISO(this.due), parseISO(format(new Date(), 'yyyy-MM-dd')), {addSuffix: true});
     if (date === 'less than a minute ago') date = 'today';
     return date;
   }
@@ -40,7 +41,7 @@ class Task {
   }
 
   isOverdue() {
-    if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(this.dueDate)) === 1 && !this.complete) {
+    if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(this.due)) === 1 && !this.complete) {
       return this.overdue = true;
     }
     return false;

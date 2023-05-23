@@ -3,7 +3,7 @@ import ToDoListContext from "../context/ToDoListContext";
 
 const Task = ({ task }) => {
 
-  const { tasks, setTasks } = useContext(ToDoListContext);
+  const { tasks, setTasks, handleDeleteTask } = useContext(ToDoListContext);
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
   const handleChangeTaskPriority = () => {
@@ -22,12 +22,6 @@ const Task = ({ task }) => {
     const tasksCopy = [...tasks];
     tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
     setTasks(tasksCopy);
-  }
-
-  const handleTaskDeletion = () => {
-    let tasksCopy = [...tasks];
-    let newTasks = tasksCopy.filter(existingTask => existingTask.id !== task.id);
-    setTasks(newTasks);
   }
 
   return (
@@ -54,7 +48,7 @@ const Task = ({ task }) => {
       <p>
         {task.title}
       </p>
-      <button type="button" className="delete task" onClick={() => handleTaskDeletion()}></button>
+      <button type="button" className="delete task" onClick={() => handleDeleteTask(task)}></button>
     </li>
   )
 }
