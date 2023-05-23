@@ -175,16 +175,19 @@ export const DataProvider = ({ children }) => {
     const list = lists.find(list => list.id === id);
 
     if (!list) {
-      console.log("Error finding the list to set as active.")
+      console.log("Error finding the list to set as active.");
       return;
     }
+
+    if (list.id === activeList.id) return;
 
     setActiveList(sortTasks(list));
   }
 
   useEffect(() => {
-    handleSetActiveListToAllTasks();
-  }, [lists])
+    if (!activeList?.id) handleSetActiveListToAllTasks();
+    if (activeList?.id) handleSetActiveList(activeList.id);
+  }, [lists, activeList?.id]);
 
   // Do this every time activeList changes
   // Update the DOM to show which list item is active on the left
@@ -201,11 +204,6 @@ export const DataProvider = ({ children }) => {
     });
 
   }, [activeList]);
-
-  // Run once to set the task view to all tasks on page load
-  useEffect(() => {
-    return handleSetActiveListToAllTasks();
-  }, []);
 
   return (
     <ToDoListContext.Provider value={{

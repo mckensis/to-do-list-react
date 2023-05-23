@@ -3,26 +3,28 @@ import ToDoListContext from "../context/ToDoListContext";
 
 const Task = ({ task }) => {
 
-  const { tasks, setTasks, handleDeleteTask } = useContext(ToDoListContext);
+  const { handleDeleteTask } = useContext(ToDoListContext);
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
-  const handleChangeTaskPriority = () => {
-    task.updatePriority();
-    const updatedTasks = [...tasks];
-    updatedTasks.map((existingTask) => existingTask.id === task.id ? existingTask.priority = task.priority : existingTask);
-    setTasks(updatedTasks);
-  }
+  // TO:DO - Update to use lists state, not task state
+  // const handleChangeTaskPriority = () => {
+  //   task.updatePriority();
+  //   const updatedTasks = [...tasks];
+  //   updatedTasks.map((existingTask) => existingTask.id === task.id ? existingTask.priority = task.priority : existingTask);
+  //   setTasks(updatedTasks);
+  // }
   
   const handleToggleDueDateFormat = () => {
     setDueDateToggled(!dueDateToggled);
   }
 
-  const handleToggleTaskCompletion = () => {
-    task.toggleComplete();
-    const tasksCopy = [...tasks];
-    tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
-    setTasks(tasksCopy);
-  }
+  // TO:DO - Update to use lists state, not task state
+  // const handleToggleTaskCompletion = () => {
+  //   task.toggleComplete();
+  //   const tasksCopy = [...tasks];
+  //   tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
+  //   setTasks(tasksCopy);
+  // }
 
   return (
     <li 
@@ -31,10 +33,11 @@ const Task = ({ task }) => {
       onMouseLeave={() => setDueDateToggled(false)}
     >
       <div>
-        <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
+        {/* Uncomment these once functions updated */}
+        {/* <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
         <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
           {task.describePriorityInWords()}
-        </button>
+        </button> */}
         <p
           className={task.overdue ? 'due overdue' : 'due'}
           onClick={() => handleToggleDueDateFormat()}
