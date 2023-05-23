@@ -150,6 +150,7 @@ export const DataProvider = ({ children }) => {
     return listCopy;
   };
 
+  // For displaying "All Tasks" to the user
   const handleSetActiveListToAllTasks = () => {
     const allLists = {
       tasks: []
@@ -165,6 +166,7 @@ export const DataProvider = ({ children }) => {
     setActiveList(sortedList);
   }
 
+  // Filters the active list to the list which was clicked on in the left section
   const handleSetActiveList = (id) => {
     if (!id) return;
     if (id === 'all') {
@@ -179,8 +181,10 @@ export const DataProvider = ({ children }) => {
       return;
     }
 
+    // Don't change the active list if it's the same one that was clicked on
     if (list.id === activeList.id) return;
 
+    // Set the active list to the list which was clicked on
     setActiveList(sortTasks(list));
   }
 
@@ -223,59 +227,3 @@ export const DataProvider = ({ children }) => {
 }
 
 export default ToDoListContext;
-
-// const setTasksToAllTasks = () => {
-//   const allTasks = [];
-//    lists.forEach(list => {
-//     list.tasks.forEach(task => {
-//       allTasks.push(task);
-//     });
-//   });
-//   setTasks(sortTasks(allTasks));
-// };
-
-// // This needs fixed.
-// // Sets tasks based on the active list
-// const handleSetActiveList = (id) => {
-//   if (!id) return;
-//   if (id === getActiveListID()) return;
-
-//   handleHideTaskForm();
-//   handleHideListForm();
-
-//   listRef.current.childNodes.forEach(child => {
-//     if (child.dataset.id !== id) child.classList.remove('active');  
-//     if (child.dataset.id === id) child.classList.add('active'); 
-//   });
-
-//   if (id !== 'all') {
-//     const activeList = handleFilterTasks(id);
-//     setTasks(sortTasks(activeList.tasks));
-//   }
-
-//   // Change this to display the actual tasks once we have those
-//   if (id === 'all') setTasksToAllTasks();
-// }
-
-// useEffect(() => {
-//   console.log("in");
-//   setTasksToAllTasks();
-// }, []);
-
-// const getActiveListID = () => {
-//   if (!listRef || !listRef.current) return;
-//   const children = Array.from(listRef.current.children);
-//   let active = null;
-//   children.forEach(child => {
-//     if (child.classList.contains('active')) {
-//       active = child.dataset.id;
-//     }
-//   });
-//   return active;
-// };
-
-// const handleFilterTasks = (id) => {
-//   const listsCopy = [...lists];
-//   const filteredList = listsCopy.filter(list => list.id === id);
-//   return filteredList[0];
-// };

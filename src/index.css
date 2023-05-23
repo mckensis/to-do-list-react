@@ -154,10 +154,6 @@ form {
   padding: 0.75rem;
 }
 
-form.task {
-  background-color: var(--palette-color-primary-hover-dark);
-}
-
 form button {
   flex-grow: 1;
   padding: 0.5rem;
@@ -205,11 +201,6 @@ button.add {
   border-radius: 2rem;
   color: var(--palette-color-secondary);
   background-color: rgba(0,0,0,0.15);
-}
-
-/* (+) task button */ 
-button.add.task {
-  color: var(--palette-color-primary);
 }
 
 button.confirm {
@@ -519,17 +510,17 @@ p.due {
     transition: background-color 0.5s ease, color 0.5s ease;
   }
   
-  button.add.list:hover {
+  button.add:hover {
     transition: background-color 0.5s ease, color 0.5s ease;
     background-color: var(--palette-color-secondary-hover-dark);
     color: var(--palette-light);
   }
 
-  button.add.task:hover {
+  /* button.add.task:hover {
     transition: background-color 0.5s ease, color 0.5s ease;
     background-color: var(--palette-color-primary-hover-dark);
     color: var(--palette-light);
-  }
+  } */
 
   button.expand:hover {
     background-color: var(--palette-color-secondary-hover-dark);
@@ -538,17 +529,13 @@ p.due {
     transition: letter-spacing 0.5s ease, font-weight 0.2s ease;
   }
 
-  button.delete.list {
+  button.delete {
     transition: transform 0.5s ease;
   }
 
   button.delete.list:hover {
     transition: transform 0.5s ease;
     transform: translateY(-50%) scale(1.2);
-  }
-
-  button.delete.task {
-    transition: transform 0.5s ease;
   }
 
   button.delete.task:hover {

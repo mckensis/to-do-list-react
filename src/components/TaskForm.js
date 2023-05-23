@@ -63,10 +63,10 @@ const TaskForm = () => {
         <select
           id="task-list"
           name="task-list"
-          defaultValue={activeList.id}
+          defaultValue={activeList?.id}
           { ...register('list', { required: true }) }
-          >
-          {lists.map(list => (
+        >
+          {lists?.map(list => (
             <option key={list.id} value={list.id}>{list.title}</option>
             ))}
         </select>
