@@ -3,28 +3,55 @@ import ToDoListContext from "../context/ToDoListContext";
 
 const Task = ({ task }) => {
 
-  const { handleDeleteTask } = useContext(ToDoListContext);
+  const {
+    lists,
+    setLists,
+    activeList,
+    handleDeleteTask,
+    handleSetActiveList,
+    handleSetActiveListToAllTasks,
+  } = useContext(ToDoListContext);
+  
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
-  // TO:DO - Update to use lists state, not task state
-  // const handleChangeTaskPriority = () => {
-  //   task.updatePriority();
-  //   const updatedTasks = [...tasks];
-  //   updatedTasks.map((existingTask) => existingTask.id === task.id ? existingTask.priority = task.priority : existingTask);
-  //   setTasks(updatedTasks);
-  // }
+  const handleChangeTaskPriority = (task) => {
+    task.updatePriority();
+
+    const listsCopy = [...lists];
+    const foundList = listsCopy.find(list => list.id === task.list);
+
+    if (!foundList) {
+      console.log("Error finding the list to update a task priority in.");
+      return;
+    }
+
+    const tasksCopy = [ ...foundList['tasks'] ];
+    const updatedTasks = tasksCopy.map(foundTask => foundTask.id === task.id ? foundTask = task : foundTask);
+    foundList.tasks = updatedTasks;
+  
+    const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
+  
+    setLists(updatedLists);
+
+    // if (!activeList.id) {
+    //   handleSetActiveListToAllTasks();
+    //   return;
+    // } 
+
+    // handleSetActiveList(activeList.id);
+  }
   
   const handleToggleDueDateFormat = () => {
     setDueDateToggled(!dueDateToggled);
   }
 
-  // TO:DO - Update to use lists state, not task state
-  // const handleToggleTaskCompletion = () => {
-  //   task.toggleComplete();
-  //   const tasksCopy = [...tasks];
-  //   tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
-  //   setTasks(tasksCopy);
-  // }
+  const handleToggleTaskCompletion = () => {
+    return;
+    // task.toggleComplete();
+    // const tasksCopy = [...tasks];
+    // tasksCopy.map((existingTask) => existingTask.id === task.id ? existingTask.complete = task.complete : existingTask);
+    // setTasks(tasksCopy);
+  }
 
   return (
     <li 
@@ -33,11 +60,10 @@ const Task = ({ task }) => {
       onMouseLeave={() => setDueDateToggled(false)}
     >
       <div>
-        {/* Uncomment these once functions updated */}
-        {/* <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
-        <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority()}>
+        <input type="checkbox" checked={task.isComplete()} onChange={() => handleToggleTaskCompletion()} />
+        <button className={`priority p${task.priority}`} onClick={() => handleChangeTaskPriority(task)}>
           {task.describePriorityInWords()}
-        </button> */}
+        </button>
         <p
           className={task.overdue ? 'due overdue' : 'due'}
           onClick={() => handleToggleDueDateFormat()}

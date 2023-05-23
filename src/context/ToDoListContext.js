@@ -140,7 +140,7 @@ export const DataProvider = ({ children }) => {
 
     //Sort the incomplete tasks to have nearest due date at the top
     let sortedIncomplete = incomplete.sort((taskOne, taskTwo) => {
-        return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate) || taskTwo.priority - taskOne.priority;
+        return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate);
     });
 
     let sortedTasks = [...sortedIncomplete, ...sortedComplete];
