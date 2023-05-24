@@ -6,24 +6,20 @@ const Task = ({ task }) => {
   const {
     lists,
     setLists,
-    activeList,
     handleDeleteTask,
-    handleSetActiveList,
-    handleSetActiveListToAllTasks,
   } = useContext(ToDoListContext);
   
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
   const saveAndSetTasks = ({ foundList, listsCopy, taskToUpdate }) => {
     const tasksCopy = [ ...foundList['tasks'] ];
-    const updatedTasks = tasksCopy.map(foundTask => foundTask.id === task.id ? foundTask = task : foundTask);
+    const updatedTasks = tasksCopy.map(foundTask => foundTask.id === taskToUpdate.id ? foundTask = taskToUpdate : foundTask);
     foundList.tasks = updatedTasks;
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
     setLists(updatedLists);
   }
 
   const handleChangeTaskPriority = (taskToUpdate) => {
-    
     const listsCopy = [...lists];
     const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
     
@@ -32,15 +28,10 @@ const Task = ({ task }) => {
       return;
     }
     
-    task.updatePriority();
+    taskToUpdate.updatePriority();
     saveAndSetTasks({ foundList, listsCopy, taskToUpdate });
-
   }
   
-  const handleToggleDueDateFormat = () => {
-    setDueDateToggled(!dueDateToggled);
-  }
-
   const handleToggleTaskCompletion = (taskToUpdate) => {
     const listsCopy = [...lists];
     const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
@@ -50,8 +41,13 @@ const Task = ({ task }) => {
       return;
     }
     
-    task.toggleComplete();
+    taskToUpdate.toggleComplete();
     saveAndSetTasks({ foundList, listsCopy, taskToUpdate });
+  }
+
+  const handleToggleDueDateFormat = (task) => {
+    if (task.isComplete()) return;
+    setDueDateToggled(!dueDateToggled);
   }
 
   return (
@@ -66,13 +62,17 @@ const Task = ({ task }) => {
           {task.describePriorityInWords()}
         </button>
         <p
-          className={task.overdue ? 'due overdue' : 'due'}
-          onClick={() => handleToggleDueDateFormat()}
+          className={`due ${task.overdue ? `overdue` : null}`}
+          onClick={() => handleToggleDueDateFormat(task)}
         >
-          {dueDateToggled ?
-            `Due on ${task.describeDueDateExact()}`
-            : `Due ${task.describeDueDateSimple()}`
+
+          {!task.isComplete() ?
+            dueDateToggled ?
+              `Due on ${task.describeDueDateExact()}`
+              : `Due ${task.describeDueDateSimple()}`
+              : task.describeDueDateExact()
           }
+
         </p>
       </div>
       <p>

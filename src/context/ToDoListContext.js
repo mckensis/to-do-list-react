@@ -121,29 +121,52 @@ export const DataProvider = ({ children }) => {
     if (!list) return;
 
     let listCopy = list;
-    let temp = [...listCopy['tasks']];
-    let complete = [];
-    let incomplete = [];
+    let tasksCopy = [...listCopy['tasks']];
 
-    temp.forEach(task => {
-        if (task.isComplete()) {
-            complete.push(task);
-        } else {
-            incomplete.push(task);
-        }
-    });
+    const sortedTasks = tasksCopy.sort(function(first, second) {
+      
+      // Sort by task completion
+      // Completed tasks will be sorted at the bottom
+      if (first.isComplete() < second.isComplete()) return -1;
+      if (second.isComplete() < first.isComplete()) return 1;
+      
+      // Sort by due date
+      // Overdue tasks will be 
+      if (first.due < second.due) return -1;
+      if (second.due < first.due) return 1;
 
-    //Sort the complete tasks to have most recent at the top
-    let sortedComplete = complete.sort((taskOne, taskTwo) => {
-        return parseISO(taskTwo.dueDate) - parseISO(taskOne.dueDate) || taskTwo.priority - taskOne.priority;
-    });
+      // Sort by priority for completed tasks due on the same day
+      // Urgent priority will be sorted higher
+      // Low priority will be sorted lower
+      if (first.isComplete() && second.isComplete()) {
+        if (first.priority < second.priority) return 1;
+        if (second.priority < first.priority) return -1;
+      }
 
-    //Sort the incomplete tasks to have nearest due date at the top
-    let sortedIncomplete = incomplete.sort((taskOne, taskTwo) => {
-        return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate);
-    });
+      return 0;
+    })
+    // let complete = [];
+    // let incomplete = [];
 
-    let sortedTasks = [...sortedIncomplete, ...sortedComplete];
+    // tasksCopy.forEach(task => {
+    //     if (task.isComplete()) {
+    //         complete.push(task);
+    //     } else {
+    //         incomplete.push(task);
+    //     }
+    // });
+
+    // //Sort the complete tasks to have most recent at the top
+    // let sortedComplete = complete.sort((taskOne, taskTwo) => {
+    //     return parseISO(taskTwo.dueDate) - parseISO(taskOne.dueDate) || taskTwo.priority - taskOne.priority;
+    // });
+
+    // //Sort the incomplete tasks to have nearest due date at the top
+    // let sortedIncomplete = incomplete.sort((taskOne, taskTwo) => {
+    //     return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate);
+    // });
+
+    // let sortedTasks = [...sortedIncomplete, ...sortedComplete];
     
     listCopy = {...listCopy, tasks: sortedTasks};
 
