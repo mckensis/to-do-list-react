@@ -1,6 +1,5 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import CreateDefaultList from '../functions/CreateDefaultList';
-import { parseISO } from "date-fns";
 import List from "../classes/List";
 
 // Create a context for the site to use

@@ -1,14 +1,14 @@
 import Header from './components/Header';
-import Lists from './components/Lists';
-import Tasks from './components/Tasks';
+import ListSection from './components/lists/ListSection';
+import TaskSection from './components/tasks/TaskSection';
 import { DataProvider } from './context/ToDoListContext';
 
 function App() {
   return (
     <DataProvider>
       <Header />
-      <Lists />
-      <Tasks />
+      <ListSection />
+      <TaskSection />
     </DataProvider>
   );
 }

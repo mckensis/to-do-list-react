@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import Task from "./Task";
+import TaskItem from "./TaskItem";
 import TaskForm from "./TaskForm";
-import ToDoListContext from "../context/ToDoListContext";
+import ToDoListContext from "../../context/ToDoListContext";
 
-const Tasks = () => {
+const TaskSection = () => {
   
   const {
     activeList,
@@ -24,17 +24,12 @@ const Tasks = () => {
         {(activeList?.tasks?.length === 0 || !activeList) && <li className="empty-list" key="empty-list">No Tasks Found!</li>}
 
         {activeList?.tasks.map(task => (
-          <Task key={task.id} task={task} />
+          <TaskItem key={task.id} task={task} />
         ))}
-
-        {/* {(tasks?.length === 0 || !tasks) && <li className="empty-list" key="empty-task-list">No Tasks Found!</li>} 
-        {tasks?.map(task => (
-          <Task key={task.id} task={task} />
-        ))} */}
       </ul>}
     </main>
 
   )
 }
 
-export default Tasks;
+export default TaskSection;

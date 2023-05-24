@@ -1,13 +1,11 @@
 import { useContext, useState } from "react";
-import ToDoListContext from "../context/ToDoListContext";
+import ToDoListContext from "../../context/ToDoListContext";
 
-const Task = ({ task }) => {
+const TaskItem = ({ task }) => {
 
   const {
     lists,
     setLists,
-    sortLists,
-    sortTasks,
     handleDeleteTask,
   } = useContext(ToDoListContext);
   
@@ -19,8 +17,6 @@ const Task = ({ task }) => {
     foundList.tasks = updatedTasks;
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
     setLists(updatedLists);
-    // const sortedLists = sortLists(updatedLists);
-    // setLists(sortedLists);
   }
 
   const handleChangeTaskPriority = (taskToUpdate) => {
@@ -87,4 +83,4 @@ const Task = ({ task }) => {
   )
 }
 
-export default Task;
+export default TaskItem;

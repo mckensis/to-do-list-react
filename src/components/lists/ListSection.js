@@ -1,10 +1,9 @@
 import { useContext } from "react";
 import ListItem from "./ListItem";
 import ListForm from "./ListForm";
-import ToDoListContext from "../context/ToDoListContext";
+import ToDoListContext from "../../context/ToDoListContext";
 
-const Lists = () => {
-
+const ListSection = () => {
   const {
     lists,
     listRef,
@@ -34,4 +33,4 @@ const Lists = () => {
   )
 }
 
-export default Lists;
+export default ListSection;
