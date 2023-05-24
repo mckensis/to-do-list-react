@@ -479,7 +479,7 @@ p.due {
     cursor:text;
   }
 
-  p.due:hover {
+  p.due:hover:not(.task-item.completed p.due) {
     cursor: pointer;
   }
 

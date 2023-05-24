@@ -6,7 +6,7 @@ class Task {
     this.id = id || uuid();
     this.title = title;
     this.due = due;
-    this.priority = priority || 1;
+    this.priority = priority;
     this.complete = complete || false;
     this.overdue = this.isOverdue();
     this.owner = owner || null;

@@ -1,4 +1,3 @@
-import { toHaveStyle } from "@testing-library/jest-dom/dist/matchers";
 import Task from "./Task";
 import {v4 as uuid} from 'uuid';
 
@@ -11,7 +10,7 @@ class List {
   }
 
   _store(item) {
-    this.tasks.push(item);
+    this.tasks.unshift(item);
   }
 
   create(item) {

@@ -6,6 +6,8 @@ const Task = ({ task }) => {
   const {
     lists,
     setLists,
+    sortLists,
+    sortTasks,
     handleDeleteTask,
   } = useContext(ToDoListContext);
   
@@ -17,6 +19,8 @@ const Task = ({ task }) => {
     foundList.tasks = updatedTasks;
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
     setLists(updatedLists);
+    // const sortedLists = sortLists(updatedLists);
+    // setLists(sortedLists);
   }
 
   const handleChangeTaskPriority = (taskToUpdate) => {
@@ -62,7 +66,7 @@ const Task = ({ task }) => {
           {task.describePriorityInWords()}
         </button>
         <p
-          className={`due ${task.overdue ? `overdue` : null}`}
+          className={task.overdue && !task.isComplete() ? 'due overdue' : 'due'}
           onClick={() => handleToggleDueDateFormat(task)}
         >
 

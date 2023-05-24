@@ -118,8 +118,80 @@ function CreateDefaultShoppingList() {
     return shopping;
 }
 
+function CreateSortList() {
+    const sort = new List({ title: 'Sort' });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, incomplete, low priority',
+        due: '2023-05-24',
+        priority: 0,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, incomplete, default priority',
+        due: '2023-05-24',
+        priority: 1,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, incomplete, urgent priority',
+        due: '2023-05-24',
+        priority: 2,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, complete, low priority',
+        due: '2023-05-24',
+        complete: true,
+        priority: 0,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, complete, default priority',
+        due: '2023-05-24',
+        complete: true,
+        priority: 1,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due today, complete, urgent priority',
+        due: '2023-05-24',
+        complete: true,
+        priority: 2,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due tomorrow, complete',
+        due: '2023-05-25',
+        complete: true,
+        priority: 1,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due tomorrow, incomplete',
+        due: '2023-05-25',
+        priority: 1,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due in two days, complete',
+        due: '2023-05-26',
+        complete: true,
+        priority: 1,
+    });
+    sort.create({
+        list: sort.id,
+        title: 'Due in two days, incomplete',
+        due: '2023-05-26',
+        priority: 1,
+    });
+
+    return sort;
+}
+
+
 function CreateEmptyList() {
-    const empty = new List({ title: 'Empty' });
+    const empty = new List({ title: "Empty" });
     return empty;
 }
 
@@ -129,11 +201,13 @@ function CreateDefaultList() {
     const work = CreateDefaultWorkList();
     const personal = CreateDefaultPersonalList();
     const shopping = CreateDefaultShoppingList();
+    const sort = CreateSortList();
     const empty = CreateEmptyList();
     
     list.push(work);
     list.push(personal);
     list.push(shopping);
+    list.push(sort);
     list.push(empty);
 
     return list;

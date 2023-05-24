@@ -74,6 +74,8 @@ export const DataProvider = ({ children }) => {
       list: data.list
     });
 
+    console.log(listCopy);
+
     setActiveList(sortTasks(listCopy));
   };
 
@@ -88,22 +90,13 @@ export const DataProvider = ({ children }) => {
 
     const tasksCopy = [ ...foundList['tasks'] ];
     const updatedTasks = tasksCopy.filter(foundTask => foundTask.id !== task.id);
-    foundList.tasks = updatedTasks;
-
-    const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
+    const updatedList = {...foundList, tasks: updatedTasks};
+    const updatedLists = listsCopy.map(list => list.id === updatedList.id ? list = updatedList : list);
 
     setLists(updatedLists);
-
-    if (!activeList.id) {
-      handleSetActiveListToAllTasks();
-      return;
-    } 
-
-    handleSetActiveList(activeList.id);
   };
 
   const handleDeleteList = (list) => {
-
     const listsCopy = [...lists];
     const updatedLists = listsCopy.filter(foundList => foundList.id !== list.id);
 
@@ -114,7 +107,12 @@ export const DataProvider = ({ children }) => {
 
     setActiveList(null);
     setLists(updatedLists);
-    // handleSetActiveListToAllTasks();
+  }
+
+  // Sort the collection of lists
+  const sortLists = (lists) => {
+    const sortedLists = lists.map(list => sortTasks(list));
+    return sortedLists;
   }
 
   const sortTasks = (list) => {
@@ -131,9 +129,18 @@ export const DataProvider = ({ children }) => {
       if (second.isComplete() < first.isComplete()) return 1;
       
       // Sort by due date
-      // Overdue tasks will be 
-      if (first.due < second.due) return -1;
-      if (second.due < first.due) return 1;
+      // Overdue tasks will be at the top
+      if (first.isComplete() && second.isComplete()) {
+        if (first.due < second.due) return 1;
+        if (second.due < first.due) return -1;
+      }
+      
+      // Sort by due date for incomplete tasks
+      // New tasks will be placed at the top of the list
+      if (!first.isComplete() && !second.isComplete()) {
+        if (first.due < second.due) return -1;
+        if (second.due < first.due) return 1;
+      }
 
       // Sort by priority for completed tasks due on the same day
       // Urgent priority will be sorted higher
@@ -143,30 +150,8 @@ export const DataProvider = ({ children }) => {
         if (second.priority < first.priority) return -1;
       }
 
-      return 0;
-    })
-    // let complete = [];
-    // let incomplete = [];
-
-    // tasksCopy.forEach(task => {
-    //     if (task.isComplete()) {
-    //         complete.push(task);
-    //     } else {
-    //         incomplete.push(task);
-    //     }
-    // });
-
-    // //Sort the complete tasks to have most recent at the top
-    // let sortedComplete = complete.sort((taskOne, taskTwo) => {
-    //     return parseISO(taskTwo.dueDate) - parseISO(taskOne.dueDate) || taskTwo.priority - taskOne.priority;
-    // });
-
-    // //Sort the incomplete tasks to have nearest due date at the top
-    // let sortedIncomplete = incomplete.sort((taskOne, taskTwo) => {
-    //     return taskOne.complete - taskTwo.complete || parseISO(taskOne.dueDate) - parseISO(taskTwo.dueDate);
-    // });
-
-    // let sortedTasks = [...sortedIncomplete, ...sortedComplete];
+      return 1;
+    });
     
     listCopy = {...listCopy, tasks: sortedTasks};
 
@@ -204,9 +189,6 @@ export const DataProvider = ({ children }) => {
       return;
     }
 
-    // Don't change the active list if it's the same one that was clicked on
-    if (list.id === activeList.id) return;
-
     // Set the active list to the list which was clicked on
     setActiveList(sortTasks(list));
   }
@@ -214,7 +196,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     if (!activeList?.id) handleSetActiveListToAllTasks();
     if (activeList?.id) handleSetActiveList(activeList.id);
-  }, [lists, activeList?.id]);
+  }, [lists]);
 
   // Do this every time activeList changes
   // Update the DOM to show which list item is active on the left
@@ -236,7 +218,8 @@ export const DataProvider = ({ children }) => {
     <ToDoListContext.Provider value={{
       user, setUser, activeList,
       lists, setLists, listRef,
-      sortTasks, handleDeleteTask, handleDeleteList,
+      sortLists, sortTasks,
+      handleDeleteTask, handleDeleteList,
       taskFormVisible, setTaskFormVisible,
       listFormVisible, setListFormVisible,
       handleSetActiveList, handleSetActiveListToAllTasks,
