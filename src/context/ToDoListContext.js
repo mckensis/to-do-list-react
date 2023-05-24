@@ -74,7 +74,6 @@ export const DataProvider = ({ children }) => {
       list: data.list
     });
 
-    console.log(listCopy);
 
     setActiveList(sortTasks(listCopy));
   };
@@ -90,8 +89,9 @@ export const DataProvider = ({ children }) => {
 
     const tasksCopy = [ ...foundList['tasks'] ];
     const updatedTasks = tasksCopy.filter(foundTask => foundTask.id !== task.id);
-    const updatedList = {...foundList, tasks: updatedTasks};
-    const updatedLists = listsCopy.map(list => list.id === updatedList.id ? list = updatedList : list);
+    foundList.tasks = updatedTasks;
+
+    const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
 
     setLists(updatedLists);
   };
