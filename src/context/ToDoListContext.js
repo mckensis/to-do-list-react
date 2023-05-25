@@ -1,6 +1,8 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import CreateDefaultList from '../functions/CreateDefaultList';
 import List from "../classes/List";
+import { auth, googleProvider } from "../firebase/firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -55,6 +57,10 @@ export const DataProvider = ({ children }) => {
       priority: 1,
       list: newList.id
     });
+    if (!lists) {
+      setLists([newList]);
+      return;
+    }
     const listsCopy = [...lists];
     setLists([...listsCopy, newList]);
   };
@@ -72,7 +78,6 @@ export const DataProvider = ({ children }) => {
       priority: data.priority,
       list: data.list
     });
-
 
     setActiveList(sortTasks(listCopy));
   };
@@ -108,12 +113,13 @@ export const DataProvider = ({ children }) => {
     setLists(updatedLists);
   }
 
-  // Sort the collection of lists
+  // Sort all tasks in the collection of all lists
   const sortLists = (lists) => {
     const sortedLists = lists.map(list => sortTasks(list));
     return sortedLists;
   }
 
+  // Sort the tasks within one list
   const sortTasks = (list) => {
     if (!list) return;
 
@@ -137,8 +143,8 @@ export const DataProvider = ({ children }) => {
       // Sort by due date for incomplete tasks
       // New tasks will be placed at the top of the list
       if (!first.isComplete() && !second.isComplete()) {
-        if (first.due < second.due) return -1;
         if (second.due < first.due) return 1;
+        if (first.due < second.due) return -1;
       }
 
       // Sort by priority for completed tasks due on the same day
@@ -157,13 +163,44 @@ export const DataProvider = ({ children }) => {
     return listCopy;
   };
 
+  const handleCreateUserThenSignInWithEmailAndPassword = async (email, password) => {
+    try {
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      handleSetUser(response.user);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      const response = await signInWithPopup(auth, googleProvider);
+      handleSetUser(response.user);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+  
+  const handleSignOutUser = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  const handleSetUser = useCallback((user) => {
+    setUser({ id: user.uid, email: user.email, photo: user.photoURL, name: user.displayName });
+  }, [setUser]);
+
   // For displaying "All Tasks" to the user
-  const handleSetActiveListToAllTasks = () => {
+  const handleSetActiveListToAllTasks = useCallback(() => {
     const allLists = {
       tasks: []
     }
     
-    lists.forEach(list => {
+    lists?.forEach(list => {
       list.tasks.forEach(task => {
         allLists.tasks.push(task);
       });
@@ -171,10 +208,10 @@ export const DataProvider = ({ children }) => {
 
     const sortedList = sortTasks(allLists);
     setActiveList(sortedList);
-  }
+  }, [lists]);
 
   // Filters the active list to the list which was clicked on in the left section
-  const handleSetActiveList = (id) => {
+  const handleSetActiveList = useCallback((id) => {
     if (!id) return;
     if (id === 'all') {
       handleSetActiveListToAllTasks();
@@ -190,17 +227,19 @@ export const DataProvider = ({ children }) => {
 
     // Set the active list to the list which was clicked on
     setActiveList(sortTasks(list));
-  }
+  }, [handleSetActiveListToAllTasks, lists]);
 
+  // Do this when the lists variable changes
   useEffect(() => {
     if (!activeList?.id) handleSetActiveListToAllTasks();
     if (activeList?.id) handleSetActiveList(activeList.id);
-  }, [lists]);
+  }, [lists, activeList?.id, handleSetActiveList, handleSetActiveListToAllTasks]);
 
   // Do this every time activeList changes
   // Update the DOM to show which list item is active on the left
   useEffect(() => {
     if (!activeList) return;
+    if (!listRef?.current?.childNodes) return;
 
     listRef.current.childNodes.forEach(child => {
       if (!activeList.title) {
@@ -212,6 +251,10 @@ export const DataProvider = ({ children }) => {
     });
 
   }, [activeList]);
+
+  useEffect(() => {
+    setLists(null);
+  }, [user]);
 
   return (
     <ToDoListContext.Provider value={{
@@ -225,6 +268,8 @@ export const DataProvider = ({ children }) => {
       handleShowListForm, handleHideListForm,
       handleSubmitListForm, handleSubmitTaskForm,
       handleShowTaskForm, handleHideTaskForm,
+      handleSetUser,
+      handleCreateUserThenSignInWithEmailAndPassword, handleSignInWithGoogle, handleSignOutUser
     }}>
       {children}
     </ToDoListContext.Provider>

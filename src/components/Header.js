@@ -1,11 +1,18 @@
 import { useContext } from "react";
 import ToDoListContext from '../context/ToDoListContext';
+import { auth } from "../firebase/firebase";
+import { signOut } from "firebase/auth";
 
 const Header = () => {
   const { user, setUser } = useContext(ToDoListContext);
 
-  const handleSignIn = () => {
-    console.log("clicked");
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   return (
@@ -15,10 +22,8 @@ const Header = () => {
         <img src="" alt="" />
         {user && <>
           <p className="user-name">Signed in as <span>{user?.name}</span></p>
-          <button className="user sign-out">Sign Out</button>
+          <button className="user sign-out" onClick={handleSignOut}>Sign Out</button>
         </>}
-
-        {!user && <button className="user sign-in" onClick={() => handleSignIn()}>Sign In</button>}
       </div>
     </header>
   )

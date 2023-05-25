@@ -23,9 +23,9 @@ const ListSection = () => {
       
       <ul ref={listRef} className="list-container" onClick={(e) => handleSetActiveList(e.target.dataset.id)}>
         <li className="list-item active" data-id="all">All Tasks</li>  
-        {lists.map(list => (
+        {lists?.map(list => (
           <ListItem key={list.id} list={list} />
-        ))}        
+        ))}
       </ul>
       
       <button type="button" className="expand">Hide</button>

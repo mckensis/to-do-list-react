@@ -12,7 +12,7 @@ const TaskSection = () => {
   } = useContext(ToDoListContext);
 
   return (
-    <main className="task-section">
+    <section className="task-section">
       <h2>Tasks</h2>
       {taskFormVisible && <TaskForm/>}
 
@@ -27,7 +27,7 @@ const TaskSection = () => {
           <TaskItem key={task.id} task={task} />
         ))}
       </ul>}
-    </main>
+    </section>
 
   )
 }
