@@ -6,6 +6,9 @@ import { handleCreateListFirestore } from "../handles/handleCreateListFirestore"
 // import CreateDefaultList from '../functions/CreateDefaultList';
 import List from "../classes/List";
 import handleDeleteListFirestore from "../handles/handleDeleteListFirestore";
+import handleCreateTaskFirestore from "../handles/handleCreateTaskFirestore";
+import Task from "../classes/Task";
+import handleDeleteTaskFirestore from "../handles/handleDeleteTaskFirestore";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -69,25 +72,21 @@ export const DataProvider = ({ children }) => {
   };
 
   // Add a new task when the user creates one
-  const handleAddNewTask = (data) => {
+  const handleAddNewTask = async (data) => {
     const listCopy = lists.find(list => list.id === data.list);
     if (!listCopy) {
       console.log("Error finding the list to add a new task to.")
       return;
     }
 
-    listCopy.create({
-      title: data.title,
-      due: data.due,
-      priority: data.priority,
-      list: data.list
-    });
+    const task = await handleCreateTaskFirestore(data, user.id, listCopy.id);
+    listCopy.add(task);
 
     setActiveList(sortTasks(listCopy));
   };
 
   // Delete the task the user selected
-  const handleDeleteTask = (task) => {
+  const handleDeleteTask = async (task) => {
     const listsCopy = [...lists];
     const foundList = listsCopy.find(list => list.id === task.listId);
 
@@ -102,6 +101,7 @@ export const DataProvider = ({ children }) => {
 
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
 
+    await handleDeleteTaskFirestore(task.firestoreId);
     setLists(updatedLists);
   };
 
@@ -114,7 +114,7 @@ export const DataProvider = ({ children }) => {
       return;
     }
 
-    handleDeleteListFirestore(list, user);
+    handleDeleteListFirestore(list);
 
     // Display all tasks as default after deleting a list
     setActiveList(null);

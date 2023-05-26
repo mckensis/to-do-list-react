@@ -14,6 +14,10 @@ class List {
     this.tasks.unshift(item);
   }
 
+  add(task) {
+    this._store(task);
+  }
+
   create({ id, list, user, firestore, title, priority, due, complete }) {
     const task = new Task({
       id: id,
@@ -25,7 +29,7 @@ class List {
       due: due,
       complete: complete
     });
-    this._store(task);
+    this.add(task);
   }
 };
 

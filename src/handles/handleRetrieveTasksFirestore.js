@@ -9,5 +9,6 @@ export const handleRetrieveTasksFirestore = async (id) => {
     return data;
   } catch (err) {
     console.log(err.message);
+    return err;
   }
 }

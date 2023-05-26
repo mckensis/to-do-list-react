@@ -15,5 +15,6 @@ export const handleRetrieveListsFirestore = async (id) => {
     return lists;
   } catch (err) {
     console.log(err.message);
+    return err;
   }
 }
