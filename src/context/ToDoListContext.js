@@ -2,7 +2,7 @@ import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import List from "../classes/List";
 import { auth, googleProvider } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { handleRetrieveData } from "../handles/handleSubmit";
+import { handleRetrieveData } from "../handles/handleRetrieveData";
 import CreateDefaultList from '../functions/CreateDefaultList';
 
 // Create a context for the site to use
