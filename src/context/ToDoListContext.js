@@ -7,7 +7,6 @@ import { handleCreateListFirestore } from "../handles/handleCreateListFirestore"
 import List from "../classes/List";
 import handleDeleteListFirestore from "../handles/handleDeleteListFirestore";
 import handleCreateTaskFirestore from "../handles/handleCreateTaskFirestore";
-import Task from "../classes/Task";
 import handleDeleteTaskFirestore from "../handles/handleDeleteTaskFirestore";
 
 // Create a context for the site to use

@@ -61,6 +61,7 @@ const TaskForm = () => {
     
       <label htmlFor="task-list">List
         <select
+          disabled={(!lists || lists.length === 0)}
           id="task-list"
           name="task-list"
           defaultValue={activeList?.id}
@@ -69,12 +70,17 @@ const TaskForm = () => {
           {lists?.map(list => (
             <option key={list.id} value={list.id}>{list.title}</option>
             ))}
+
+          {/* Displays if there are no lists to add the task to */}
+          {(!lists || lists.length === 0) && 
+            <option value="" selected disabled>No Lists</option> 
+          }
         </select>
         {errors?.list?.type === "required" && <p role="alert">This field is required.</p>}
       </label>
     
       <button type="button" className="cancel" onClick={() => handleHideTaskForm()}>&#10007;</button>
-      <button type="submit" className="confirm">&#10004;</button>
+      <button type="submit" className="confirm" disabled={(!lists || lists.length === 0)} title={(!lists || lists.length === 0) && 'Please create a list before adding a task.'}>&#10004;</button>
     </form>
   )
 }

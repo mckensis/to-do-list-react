@@ -169,14 +169,6 @@ section.google {
   gap: 1rem;
 }
 
-button.google {
-  border: none;
-  color: var(--palette-light);
-  background-color: var(--palette-color-secondary);
-  border-radius: 3rem;
-  padding: 0.5rem 0.75rem;
-}
-
 .loading {
   grid-column: 1 / -1;
   background-color: var(--palette-light);
@@ -370,6 +362,19 @@ button.priority.p2 {
   color: var(--palette-light);
 }
 
+button.google {
+  border: none;
+  color: var(--palette-light);
+  background-color: var(--palette-color-secondary);
+  border-radius: 3rem;
+  padding: 0.5rem 0.75rem;
+}
+
+button:disabled {
+  background-color: grey;
+  opacity: 0.5;
+}
+
 input {
   appearance: none;
   flex-basis: 100%;
@@ -532,7 +537,7 @@ input[type=checkbox]:checked:after {
 
 /* Hover states */
 @media (hover) {
-  button:hover,
+  button:not(button:disabled):hover,
   select:hover,
   input[type="checkbox"]:hover {
     cursor: pointer;
