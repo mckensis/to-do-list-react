@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "fireba
 import { handleRetrieveDataFirestore } from "../handles/handleRetrieveDataFirestore";
 import { handleCreateListFirestore } from "../handles/handleCreateListFirestore";
 // import CreateDefaultList from '../functions/CreateDefaultList';
-import List from "../classes/List";
 import handleDeleteListFirestore from "../handles/handleDeleteListFirestore";
 import handleCreateTaskFirestore from "../handles/handleCreateTaskFirestore";
 import handleDeleteTaskFirestore from "../handles/handleDeleteTaskFirestore";
@@ -55,18 +54,17 @@ export const DataProvider = ({ children }) => {
   };
 
   // Add a new list when the user creates one
-  const handleAddNewList = (data) => {
-    const newList = new List({ title: data.title });
-    handleCreateListFirestore(newList, user);
+  const handleAddNewList = async (data) => {
+    const list = await handleCreateListFirestore(data, user);
     
     // If no other lists exist currently then set this new list as "lists"
     if (!lists) {
-      setLists([newList]);
+      setLists([ list ]);
       return;
     }
     
     // Update "lists" including the new list
-    const listsCopy = [...lists, newList];
+    const listsCopy = [...lists, list];
     setLists(listsCopy);
   };
 
