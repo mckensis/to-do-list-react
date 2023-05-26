@@ -146,7 +146,7 @@ h2 {
   border-radius: 3rem;
   box-shadow: var(--main-box-shadow);
   padding: 1rem;
-  padding-top: 1.5rem;
+  padding-top: 2rem;
 }
 
 section.user {
@@ -154,6 +154,7 @@ section.user {
   margin: 0 auto;
   align-self: center;
   display: flex;
+  padding-top: 1.5rem;
   flex-direction: column;
   max-width: 400px;
   grid-column: 1 / -1;

@@ -21,7 +21,7 @@ const TaskItem = ({ task }) => {
 
   const handleChangeTaskPriority = (taskToUpdate) => {
     const listsCopy = [...lists];
-    const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
+    const foundList = listsCopy.find(list => list.id === taskToUpdate.listId);
     
     if (!foundList) {
       console.log("Error finding the list to update a task priority in.");
@@ -34,7 +34,7 @@ const TaskItem = ({ task }) => {
   
   const handleToggleTaskCompletion = (taskToUpdate) => {
     const listsCopy = [...lists];
-    const foundList = listsCopy.find(list => list.id === taskToUpdate.list);
+    const foundList = listsCopy.find(list => list.id === taskToUpdate.listId);
     
     if (!foundList) {
       console.log("Error finding the list to update a task completion status in.");

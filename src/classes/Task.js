@@ -2,15 +2,16 @@ import { compareAsc, format, formatDistance, parseISO } from 'date-fns';
 import {v4 as uuid} from 'uuid';
 
 class Task {
-  constructor({ title, due, priority, complete, id, list, owner }) {
+  constructor({ id, listId, userId, firestoreId, title, priority, due, complete }) {
     this.id = id || uuid();
+    this.listId = listId;
+    this.userId = userId;
+    this.firestoreId = firestoreId;
     this.title = title;
-    this.due = due;
     this.priority = priority;
+    this.due = due;
     this.complete = complete || false;
     this.overdue = this.isOverdue();
-    this.owner = owner || null;
-    this.list = list
   }
 
   describeDueDateExact() {

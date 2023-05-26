@@ -1,8 +1,9 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import CreateDefaultList from '../functions/CreateDefaultList';
 import List from "../classes/List";
 import { auth, googleProvider } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { handleRetrieveData } from "../handles/handleSubmit";
+import CreateDefaultList from '../functions/CreateDefaultList';
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -13,7 +14,7 @@ export const DataProvider = ({ children }) => {
   const [taskFormVisible, setTaskFormVisible] = useState(false);
   const [listFormVisible, setListFormVisible] = useState(false);
 
-  const [lists, setLists] = useState(CreateDefaultList());
+  const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -49,14 +50,15 @@ export const DataProvider = ({ children }) => {
     handleAddNewTask(data);
   };
 
+  // Add a new list when the user creates one
   const handleAddNewList = (data) => {
     const newList = new List({ title: data.title });
-    newList.create({
-      title: 'test',
-      due: '2023-07-07',
-      priority: 1,
-      list: newList.id
-    });
+    // newList.create({
+    //   title: 'test',
+    //   due: '2023-07-07',
+    //   priority: 1,
+    //   list: newList.id
+    // });
     if (!lists) {
       setLists([newList]);
       return;
@@ -65,6 +67,7 @@ export const DataProvider = ({ children }) => {
     setLists([...listsCopy, newList]);
   };
 
+  // Add a new task when the user creates one
   const handleAddNewTask = (data) => {
     const listCopy = lists.find(list => list.id === data.list);
     if (!listCopy) {
@@ -82,9 +85,10 @@ export const DataProvider = ({ children }) => {
     setActiveList(sortTasks(listCopy));
   };
 
+  // Delete the task the user selected
   const handleDeleteTask = (task) => {
     const listsCopy = [...lists];
-    const foundList = listsCopy.find(list => list.id === task.list);
+    const foundList = listsCopy.find(list => list.id === task.listId);
 
     if (!foundList) {
       console.log("Error finding the list to delete a task from.");
@@ -100,6 +104,7 @@ export const DataProvider = ({ children }) => {
     setLists(updatedLists);
   };
 
+  // Delete the list the user selected
   const handleDeleteList = (list) => {
     const listsCopy = [...lists];
     const updatedLists = listsCopy.filter(foundList => foundList.id !== list.id);
@@ -163,6 +168,7 @@ export const DataProvider = ({ children }) => {
     return listCopy;
   };
 
+  // Firebase create a user
   const handleCreateUserThenSignInWithEmailAndPassword = async (email, password) => {
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
@@ -172,6 +178,7 @@ export const DataProvider = ({ children }) => {
     }
   }
 
+  // Firebase Google login popup
   const handleSignInWithGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
@@ -181,7 +188,8 @@ export const DataProvider = ({ children }) => {
     }
   }
   
-  const handleSignOutUser = async () => {
+  // Sign out the current user
+  async function handleSignOutUser() {
     try {
       await signOut(auth);
       setUser(null);
@@ -190,6 +198,7 @@ export const DataProvider = ({ children }) => {
     }
   }
 
+  // Set some user information for the app to use once logged in
   const handleSetUser = useCallback((user) => {
     setUser({ id: user.uid, email: user.email, photo: user.photoURL, name: user.displayName });
   }, [setUser]);
@@ -212,6 +221,7 @@ export const DataProvider = ({ children }) => {
 
   // Filters the active list to the list which was clicked on in the left section
   const handleSetActiveList = useCallback((id) => {
+  
     if (!id) return;
     if (id === 'all') {
       handleSetActiveListToAllTasks();
@@ -252,9 +262,35 @@ export const DataProvider = ({ children }) => {
 
   }, [activeList]);
 
-  useEffect(() => {
-    setLists(null);
+  // Retrieve the lists and tasks from firestore
+  const retrieveData = useCallback(async () => {
+    if (user) {
+      try {
+        const lists = await handleRetrieveData(user.id);
+        setLists(lists);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
   }, [user]);
+
+  // Demo mode if no user is logged in
+  const setDemoLists = () => {
+    setLists(CreateDefaultList());
+  }
+
+  // Call retrievedata when the user logs in
+  useEffect(() => {
+    retrieveData();
+    return;
+  }, [user, retrieveData]);
+
+  // Set the active list to null if there are no lists
+  useEffect(() => {
+    if (!lists) {
+      setActiveList(null);
+    } 
+  }, [lists]);
 
   return (
     <ToDoListContext.Provider value={{
