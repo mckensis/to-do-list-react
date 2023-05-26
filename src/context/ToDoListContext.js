@@ -5,6 +5,7 @@ import { handleRetrieveDataFirestore } from "../handles/handleRetrieveDataFirest
 import { handleCreateListFirestore } from "../handles/handleCreateListFirestore";
 // import CreateDefaultList from '../functions/CreateDefaultList';
 import List from "../classes/List";
+import handleDeleteListFirestore from "../handles/handleDeleteListFirestore";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -55,12 +56,16 @@ export const DataProvider = ({ children }) => {
   const handleAddNewList = (data) => {
     const newList = new List({ title: data.title });
     handleCreateListFirestore(newList, user);
+    
+    // If no other lists exist currently then set this new list as "lists"
     if (!lists) {
       setLists([newList]);
       return;
     }
-    const listsCopy = [...lists];
-    setLists([...listsCopy, newList]);
+    
+    // Update "lists" including the new list
+    const listsCopy = [...lists, newList];
+    setLists(listsCopy);
   };
 
   // Add a new task when the user creates one
@@ -102,14 +107,16 @@ export const DataProvider = ({ children }) => {
 
   // Delete the list the user selected
   const handleDeleteList = (list) => {
-    const listsCopy = [...lists];
-    const updatedLists = listsCopy.filter(foundList => foundList.id !== list.id);
-
+    const updatedLists = [...lists].filter(foundList => foundList.id !== list.id);
+  
     if (!updatedLists) {
       console.log("Error finding the list to delete a task from.");
       return;
     }
 
+    handleDeleteListFirestore(list, user);
+
+    // Display all tasks as default after deleting a list
     setActiveList(null);
     setLists(updatedLists);
   }
