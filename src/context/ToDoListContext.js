@@ -1,9 +1,10 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import List from "../classes/List";
 import { auth, googleProvider } from "../firebase/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { handleRetrieveData } from "../handles/handleRetrieveData";
-import CreateDefaultList from '../functions/CreateDefaultList';
+import { handleRetrieveDataFirestore } from "../handles/handleRetrieveDataFirestore";
+import { handleCreateListFirestore } from "../handles/handleCreateListFirestore";
+// import CreateDefaultList from '../functions/CreateDefaultList';
+import List from "../classes/List";
 
 // Create a context for the site to use
 const ToDoListContext = createContext({});
@@ -53,12 +54,7 @@ export const DataProvider = ({ children }) => {
   // Add a new list when the user creates one
   const handleAddNewList = (data) => {
     const newList = new List({ title: data.title });
-    // newList.create({
-    //   title: 'test',
-    //   due: '2023-07-07',
-    //   priority: 1,
-    //   list: newList.id
-    // });
+    handleCreateListFirestore(newList, user);
     if (!lists) {
       setLists([newList]);
       return;
@@ -266,7 +262,7 @@ export const DataProvider = ({ children }) => {
   const retrieveData = useCallback(async () => {
     if (user) {
       try {
-        const lists = await handleRetrieveData(user.id);
+        const lists = await handleRetrieveDataFirestore(user.id);
         setLists(lists);
       } catch (err) {
         console.log(err.message);
@@ -275,9 +271,9 @@ export const DataProvider = ({ children }) => {
   }, [user]);
 
   // Demo mode if no user is logged in
-  const setDemoLists = () => {
-    setLists(CreateDefaultList());
-  }
+  // const setDemoLists = () => {
+  //   setLists(CreateDefaultList());
+  // }
 
   // Call retrievedata when the user logs in
   useEffect(() => {

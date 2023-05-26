@@ -2,7 +2,7 @@ import { collection, getDocs, where } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
 import List from "../classes/List";
 
-export const handleRetrieveLists = async (id) => {
+export const handleRetrieveListsFirestore = async (id) => {
   const lists = [];
   try {
     const ref = collection(firestore, "lists");

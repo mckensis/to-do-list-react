@@ -1,9 +1,9 @@
-import { handleRetrieveLists } from './handleRetrieveLists';
-import { handleRetrieveTasks } from './handleRetrieveTasks';
+import { handleRetrieveListsFirestore } from './handleRetrieveListsFirestore';
+import { handleRetrieveTasksFirestore } from './handleRetrieveTasksFirestore';
 
-export const handleRetrieveData = async (id) => {
-  const lists = await handleRetrieveLists(id);
-  const tasks = await handleRetrieveTasks(id);
+export const handleRetrieveDataFirestore = async (id) => {
+  const lists = await handleRetrieveListsFirestore(id);
+  const tasks = await handleRetrieveTasksFirestore(id);
 
   lists.forEach(list => {
     tasks.forEach(task => {
