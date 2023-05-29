@@ -25,7 +25,6 @@ const handleCreateTaskFirestore = async (data, userId, listId) => {
       priority: task.priority,
     });
     task.firestoreId = result.id;
-    console.log(task);
     return task;
   } catch (err) {
     console.log(err.message);

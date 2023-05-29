@@ -80,7 +80,7 @@ const TaskForm = () => {
       </label>
     
       <button type="button" className="cancel" onClick={() => handleHideTaskForm()}>&#10007;</button>
-      <button type="submit" className="confirm" disabled={(!lists || lists.length === 0)} title={(!lists || lists.length === 0) && 'Please create a list before adding a task.'}>&#10004;</button>
+      <button type="submit" className="confirm" disabled={(!lists || lists.length === 0)} title={(!lists || lists.length === 0) ? 'Please create a list before adding a task.' : null}>&#10004;</button>
     </form>
   )
 }

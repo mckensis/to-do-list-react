@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import ToDoListContext from "../../context/ToDoListContext";
+import handleUpdateTaskFirestore from "../../handles/handleUpdateTaskFirestore";
 
 const TaskItem = ({ task }) => {
 
@@ -12,10 +13,17 @@ const TaskItem = ({ task }) => {
   const [dueDateToggled, setDueDateToggled] = useState(false);
 
   const saveAndSetTasks = ({ foundList, listsCopy, taskToUpdate }) => {
+    
     const tasksCopy = [ ...foundList['tasks'] ];
+    
     const updatedTasks = tasksCopy.map(foundTask => foundTask.id === taskToUpdate.id ? foundTask = taskToUpdate : foundTask);
+    
     foundList.tasks = updatedTasks;
+    
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
+    
+    handleUpdateTaskFirestore(taskToUpdate);
+
     setLists(updatedLists);
   }
 
@@ -62,7 +70,7 @@ const TaskItem = ({ task }) => {
           {task.describePriorityInWords()}
         </button>
         <p
-          className={task.overdue && !task.isComplete() ? 'due overdue' : 'due'}
+          className={task.isOverdue() && !task.isComplete() ? 'due overdue' : 'due'}
           onClick={() => handleToggleDueDateFormat(task)}
         >
 

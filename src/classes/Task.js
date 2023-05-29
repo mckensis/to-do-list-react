@@ -11,7 +11,6 @@ class Task {
     this.priority = priority;
     this.due = due;
     this.complete = complete || false;
-    this.overdue = this.isOverdue();
   }
 
   describeDueDateExact() {
@@ -43,7 +42,7 @@ class Task {
 
   isOverdue() {
     if (compareAsc(parseISO(format(new Date(), 'yyyy-MM-dd')), parseISO(this.due)) === 1 && !this.complete) {
-      return this.overdue = true;
+      return true;
     }
     return false;
   }

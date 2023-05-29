@@ -55,6 +55,8 @@ export const DataProvider = ({ children }) => {
 
   // Add a new list when the user creates one
   const handleAddNewList = async (data) => {
+    
+    // Add the new list to firestore
     const list = await handleCreateListFirestore(data, user);
     
     // If no other lists exist currently then set this new list as "lists"
@@ -70,12 +72,16 @@ export const DataProvider = ({ children }) => {
 
   // Add a new task when the user creates one
   const handleAddNewTask = async (data) => {
+
+    // Find the list to add the task to using list id
     const listCopy = lists.find(list => list.id === data.list);
+    
     if (!listCopy) {
       console.log("Error finding the list to add a new task to.")
       return;
     }
 
+    // Add the new task to firestore and then to the list
     const task = await handleCreateTaskFirestore(data, user.id, listCopy.id);
     listCopy.add(task);
 
@@ -84,6 +90,7 @@ export const DataProvider = ({ children }) => {
 
   // Delete the task the user selected
   const handleDeleteTask = async (task) => {
+
     const listsCopy = [...lists];
     const foundList = listsCopy.find(list => list.id === task.listId);
 
@@ -103,7 +110,7 @@ export const DataProvider = ({ children }) => {
   };
 
   // Delete the list the user selected
-  const handleDeleteList = (list) => {
+  const handleDeleteList = async (list) => {
     const updatedLists = [...lists].filter(foundList => foundList.id !== list.id);
   
     if (!updatedLists) {
@@ -111,7 +118,7 @@ export const DataProvider = ({ children }) => {
       return;
     }
 
-    handleDeleteListFirestore(list);
+    await handleDeleteListFirestore(list);
 
     // Display all tasks as default after deleting a list
     setActiveList(null);
