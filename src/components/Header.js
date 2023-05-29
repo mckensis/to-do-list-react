@@ -20,7 +20,6 @@ const Header = () => {
 
   return (
     <header onMouseLeave={() => setExpanded(false)}>
-      <h1>Do the thing!</h1>
       <div className="user-panel">
 
       {user && <FaUserCircle className="user-icon" onClick={() => setExpanded(!expanded)} title={!expanded ? "Expand user panel" : "Hide user panel"} />}

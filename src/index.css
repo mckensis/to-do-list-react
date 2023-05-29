@@ -93,24 +93,9 @@ main {
 }
 
 header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 400px;
-  max-width: 80vw;
-  text-align: center;
-  background-color: var(--palette-light);
-  border: 0.5rem solid var(--palette-color-secondary);
-  border-radius: 3rem;
-  box-shadow: var(--main-box-shadow);
-  padding: 0.5rem 1rem;
-  flex-wrap: wrap;
-  row-gap: 0.5rem;
-}
-
-header img {
-  max-height: 48px;
-  border-radius: 50%;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 h1, 
@@ -148,10 +133,12 @@ h2 {
 
 /* SVG */
 .user-icon {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: var(--palette-color-secondary);
   cursor: pointer;
   transition: transform .25s ease;
+  background-color: whitesmoke;
+  border-radius: 50%;
 }
 
 .user-icon:hover {
