@@ -21,7 +21,7 @@ const Header = () => {
       <div className="user-section">
         <img src="" alt="" />
         {user && <>
-          <p className="user-name">Signed in as <span>{user?.name}</span></p>
+          <p className="user-name">Signed in as <span>{user?.email}</span></p>
           <button className="user sign-out" onClick={handleSignOut}>Sign Out</button>
         </>}
       </div>

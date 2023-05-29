@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { auth, googleProvider } from "../firebase/firebase";
-import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { handleRetrieveDataFirestore } from "../handles/handleRetrieveDataFirestore";
 import { handleCreateListFirestore } from "../handles/handleCreateListFirestore";
 // import CreateDefaultList from '../functions/CreateDefaultList';
@@ -195,16 +195,6 @@ export const DataProvider = ({ children }) => {
     }
   }
   
-  // Sign out the current user
-  async function handleSignOutUser() {
-    try {
-      await signOut(auth);
-      setUser(null);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
-
   // Set some user information for the app to use once logged in
   const handleSetUser = useCallback((user) => {
     setUser({ id: user.uid, email: user.email, photo: user.photoURL, name: user.displayName });
@@ -312,7 +302,7 @@ export const DataProvider = ({ children }) => {
       handleSubmitListForm, handleSubmitTaskForm,
       handleShowTaskForm, handleHideTaskForm,
       handleSetUser,
-      handleCreateUserThenSignInWithEmailAndPassword, handleSignInWithGoogle, handleSignOutUser
+      handleCreateUserThenSignInWithEmailAndPassword, handleSignInWithGoogle
     }}>
       {children}
     </ToDoListContext.Provider>
