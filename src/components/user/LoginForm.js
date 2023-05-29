@@ -25,15 +25,9 @@ const LoginForm = () => {
     <>
     {!formVisible && <>
     <section className="option">
-      <h3>Login with email address</h3>
-      <span>You can login instantly with one click using any email & password. No registration is required.</span>
+      <h3>Login with email or Google Account</h3>
+      <span>You can login instantly with one click using either your Google Account or any email & password. No registration is required.</span>
       <button type="button" className="option" onClick={() => setFormVisible(true)}>Go to login page</button>
-    </section>
-
-    <section className="option">
-      <h3>Have a Google Account?</h3>
-      <span>You can use this button to login quickly & securely with your Google Account and begin creating your own tasks & lists.</span>
-      <button type="button" className="option" onClick={handleSignInWithGoogle}>Authorise via Google popup</button>
     </section>
 
     <section className="option">
@@ -73,6 +67,13 @@ const LoginForm = () => {
 
         <button type="submit">Create Account & Login</button>
       </form>
+
+      <section className="option">
+        <h3>Have a Google Account?</h3>
+        <span>You can use this button to login quickly & securely with your Google account and begin creating your own tasks & lists.</span>
+        <button type="button" className="option" onClick={handleSignInWithGoogle}>Authorise via Google popup</button>
+      </section>
+
       <button type="button" className="cancel" onClick={() => setFormVisible(false)}>Back to login options</button>
       </>
     }

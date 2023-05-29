@@ -22,3 +22,7 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const listRef = collection(firestore, 'lists');
 export const taskRef = collection(firestore, 'tasks');
+
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});

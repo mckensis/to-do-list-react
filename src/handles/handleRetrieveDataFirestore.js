@@ -5,10 +5,7 @@ export const handleRetrieveDataFirestore = async (id) => {
   try {
     const lists = await handleRetrieveListsFirestore(id);
     const tasks = await handleRetrieveTasksFirestore(id);
-    
-
-    console.log(lists);
-
+  
     lists.forEach(list => {
       tasks.forEach(task => {
         if (task.list_id === list.id) {

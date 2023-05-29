@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
-  const { user, setUser } = useContext(ToDoListContext);
+  const { user, setUser, setLists } = useContext(ToDoListContext);
   const [expanded, setExpanded] = useState(false);
 
   const handleSignOut = async () => {
@@ -13,6 +13,7 @@ const Header = () => {
     try {
       await signOut(auth);
       setUser(null);
+      setLists(null);
     } catch (err) {
       console.log(err.message);
     }
