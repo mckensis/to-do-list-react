@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <>
     {!loading && 
-      <section className="user login">
+      <section className="login">
         <h2>Login</h2>
         <LoginForm />
       </section>

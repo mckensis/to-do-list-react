@@ -1,12 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ToDoListContext from '../context/ToDoListContext';
 import { auth } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
+import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
   const { user, setUser } = useContext(ToDoListContext);
+  const [expanded, setExpanded] = useState(false);
 
   const handleSignOut = async () => {
+    setExpanded(false);
     try {
       await signOut(auth);
       setUser(null);
@@ -16,14 +19,18 @@ const Header = () => {
   }
 
   return (
-    <header>
+    <header onMouseLeave={() => setExpanded(false)}>
       <h1>Do the thing!</h1>
-      <div className="user-section">
-        <img src="" alt="" />
-        {user && <>
-          <p className="user-name">Signed in as <span>{user?.email}</span></p>
-          <button className="user sign-out" onClick={handleSignOut}>Sign Out</button>
-        </>}
+      <div className="user-panel">
+      {/* User icon */}
+      {user && <FaUserCircle className="user-icon" onClick={() => setExpanded(!expanded)} title={!expanded ? "Expand user panel" : "Hide user panel"} />}
+
+      {expanded && user &&
+        <div className="user-section">
+          <p>Logged in as {user?.email}</p>
+          <button className="user" onClick={() => handleSignOut()}>Logout</button>
+        </div>
+      }
       </div>
     </header>
   )
