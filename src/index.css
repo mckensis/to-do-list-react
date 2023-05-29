@@ -77,8 +77,6 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   gap: 1rem;
   padding: 1rem 0.5rem;
@@ -88,7 +86,6 @@ body {
 main {
   display: grid;
   grid-auto-flow: row;
-  place-content: center;
   gap: 1rem;
 }
 
@@ -96,6 +93,7 @@ header {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 1;
 }
 
 h1, 
@@ -215,6 +213,7 @@ section > span {
 }
 
 .task-container {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -453,13 +452,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Checkbox style */
 input[type="checkbox"] {
   -webkit-appearance: none;
-  -webkit-display: grid;
+  /* -webkit-display: grid;
   -webkit-position: relative;
   -webkit-place-content: center;
   -webkit-font-size: 1.8rem;
   -webkit-width: 1rem;
   -webkit-height: 1rem;
-  -webkit-outline: 1px solid black;
+  -webkit-outline: 1px solid black; */
   
   appearance: none;
   display: grid;
@@ -494,6 +493,7 @@ input[type=checkbox]:checked:after {
 }
 
 .list-container {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -759,39 +759,30 @@ input[type=checkbox]:checked:after {
 }
 
 @media (min-width: 900px) {
+  #root {
+    align-items: center;
+    justify-content: center;
+  }
+
   main {
+    place-content: center;
     grid-template-columns: 300px minmax(min-content, 800px);
     column-gap: 1rem;
   }
 
-  header {
-    max-width: 800px;
-    grid-column: 1 / -1;
-    justify-self: center;
-  }
-
-  .list-section {
+  .list-section,
+  .task-section {
     height: 80vh;
   }
   
-  .task-container, .list-container {
-    display: grid;
+  .list-container,
+  .task-container {
     overflow-y: scroll;
     margin-left: 0.75rem;
   }
 
   .list-section button.expand {
     display: none;
-  }
-  
-  .task-section {
-    position: relative;
-    height: auto;
-    max-height: 80vh;
-  }
-
-  .task-section .task-container {
-    overflow-y: scroll;
   }
 
   /* Scrollbar */
