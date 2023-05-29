@@ -4,6 +4,9 @@ import handleDeleteTaskFirestore from "./handleDeleteTaskFirestore";
 
 export const handleDeleteListFirestore = async (list) => {
 
+  // Do not delete list from firestore if it's the demo user
+  if (list.userId === "demo-id") return;
+
   // Get firestore ID of all tasks within the list that's being deleted
   const tasksToDelete = [...list.tasks.map(task => task.firestoreId)];
   

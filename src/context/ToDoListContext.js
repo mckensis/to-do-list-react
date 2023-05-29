@@ -105,8 +105,11 @@ export const DataProvider = ({ children }) => {
 
     const updatedLists = listsCopy.map(list => list.id === foundList.id ? list = foundList : list);
 
-    await handleDeleteTaskFirestore(task.firestoreId);
     setLists(updatedLists);
+
+    // Do not delete the task from firestore if it's the demo user
+    if (user.id === "demo-id") return;
+    await handleDeleteTaskFirestore(task.firestoreId);
   };
 
   // Delete the list the user selected
@@ -194,10 +197,19 @@ export const DataProvider = ({ children }) => {
       console.log(err.message);
     }
   }
-  
+
+  const handleSignInDemo = () => {
+    const user = {
+      uid: 'demo-id',
+      displayName: "Demo User",
+      email: "Demo User",
+    }
+    handleSetUser(user);
+  }
+
   // Set some user information for the app to use once logged in
   const handleSetUser = useCallback((user) => {
-    setUser({ id: user.uid, email: user.email, photo: user.photoURL, name: user.displayName });
+    setUser({ id: user.uid, email: user.email, name: user.displayName });
   }, [setUser]);
 
   // For displaying "All Tasks" to the user
@@ -301,7 +313,7 @@ export const DataProvider = ({ children }) => {
       handleShowListForm, handleHideListForm,
       handleSubmitListForm, handleSubmitTaskForm,
       handleShowTaskForm, handleHideTaskForm,
-      handleSetUser,
+      handleSetUser, handleSignInDemo,
       handleCreateUserThenSignInWithEmailAndPassword, handleSignInWithGoogle
     }}>
       {children}

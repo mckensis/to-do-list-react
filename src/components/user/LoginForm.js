@@ -6,6 +6,7 @@ const LoginForm = () => {
 
   const {
     handleSignInWithGoogle,
+    handleSignInDemo,
     handleCreateUserThenSignInWithEmailAndPassword
   } = useContext(ToDoListContext);
 
@@ -18,10 +19,6 @@ const LoginForm = () => {
   const signIn = (data, e) => {
     e.preventDefault();
     handleCreateUserThenSignInWithEmailAndPassword(email, password);
-  }
-
-  const handleSignInDemo = () => {
-    console.log("hi");
   }
 
   return (
@@ -41,7 +38,7 @@ const LoginForm = () => {
 
     <section className="option">
       <h3>Just having a look?</h3>
-      <span>You can use the button below to check out the website. All functionality is enabled, however deleted tasks will be restored on page reload.</span>
+      <span>You can use the button below to test the website. All functionality is enabled, however reloading the page will reset any changes you make.</span>
       <button type="button" className="option" onClick={handleSignInDemo}>Login instantly as temporary user</button>
     </section>
     </>}

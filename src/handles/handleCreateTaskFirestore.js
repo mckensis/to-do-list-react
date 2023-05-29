@@ -12,6 +12,9 @@ const handleCreateTaskFirestore = async (data, userId, listId) => {
     priority: data.priority,
     complete: false
   });
+
+  // Don't save to firestore if it's the demo user
+  if (userId === "demo-id") return task;
   
   try {
     const ref = collection(firestore, "tasks");

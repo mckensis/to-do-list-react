@@ -21,10 +21,10 @@ const ListForm = () => {
           autoFocus
           type="text"
           id="list-title"
-          maxLength={10}
+          maxLength={12}
           name="list-title"
           autoComplete="off"
-          { ...register('title', { required: true, maxLength: 10, pattern: /^[a-zA-Z0-9 ]+/ })}
+          { ...register('title', { required: true, maxLength: 12, pattern: /^[a-zA-Z0-9 ]+/ })}
         />
         {errors?.title?.type === "required" && <p role="alert">Required field.</p>}
         {errors?.title?.type === "pattern" && <p role="alert">Alphanumeric characters only.</p>}
