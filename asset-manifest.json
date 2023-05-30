@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/to-do-list-react/static/css/main.79a00b4b.css",
+    "main.js": "/to-do-list-react/static/js/main.bdcf667d.js",
+    "static/media/background.jpg": "/to-do-list-react/static/media/background.67b6dd194d09703e2c91.jpg",
+    "static/media/Joseph Sophia-Regular.woff": "/to-do-list-react/static/media/Joseph Sophia-Regular.b762f2a81183224cfbab.woff",
+    "static/media/Joseph Sophia-Regular.woff2": "/to-do-list-react/static/media/Joseph Sophia-Regular.e3919a53b606ad0274af.woff2",
+    "static/media/Sarabun-Italic.woff": "/to-do-list-react/static/media/Sarabun-Italic.dfdf33f2e4d86ae10aee.woff",
+    "static/media/Sarabun-ExtraLight.woff": "/to-do-list-react/static/media/Sarabun-ExtraLight.126198027f020bf582bf.woff",
+    "static/media/Sarabun-Bold.woff": "/to-do-list-react/static/media/Sarabun-Bold.8c73426e656319a08c3f.woff",
+    "static/media/Sarabun-Regular.woff": "/to-do-list-react/static/media/Sarabun-Regular.d80888a613347bf0524a.woff",
+    "static/media/Sarabun-Thin.woff": "/to-do-list-react/static/media/Sarabun-Thin.4875d5cd79f2ef0135f5.woff",
+    "static/media/Sarabun-Italic.woff2": "/to-do-list-react/static/media/Sarabun-Italic.0589a2839c34f33cc141.woff2",
+    "static/media/Sarabun-ExtraLight.woff2": "/to-do-list-react/static/media/Sarabun-ExtraLight.c64539e5f656ddde65e5.woff2",
+    "static/media/Sarabun-Bold.woff2": "/to-do-list-react/static/media/Sarabun-Bold.647963557e760cc73506.woff2",
+    "static/media/Sarabun-Regular.woff2": "/to-do-list-react/static/media/Sarabun-Regular.f67badc0785eb8b13c26.woff2",
+    "static/media/Sarabun-Thin.woff2": "/to-do-list-react/static/media/Sarabun-Thin.09ef3977d537d9be2285.woff2",
+    "index.html": "/to-do-list-react/index.html",
+    "main.79a00b4b.css.map": "/to-do-list-react/static/css/main.79a00b4b.css.map",
+    "main.bdcf667d.js.map": "/to-do-list-react/static/js/main.bdcf667d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.79a00b4b.css",
+    "static/js/main.bdcf667d.js"
+  ]
+}
