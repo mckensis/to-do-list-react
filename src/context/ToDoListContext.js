@@ -20,6 +20,7 @@ export const DataProvider = ({ children }) => {
   const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState(null);
   const [user, setUser] = useState(null);
+  const [listSectionVisible, setListSectionVisible] = useState(true);
 
   const listRef = useRef();
 
@@ -40,6 +41,16 @@ export const DataProvider = ({ children }) => {
   const handleHideTaskForm = () => {
     setTaskFormVisible(false);
   };
+
+  const handleHideListSection = () => {
+    handleHideListForm();
+    setListSectionVisible(!listSectionVisible);
+
+    if (!listSectionVisible) {
+      if (activeList?.id) return handleSetActiveList(activeList.id);
+      handleSetActiveListToAllTasks();
+    }
+  }
 
   const handleSubmitListForm = (data, e) => {
     e.target.reset();
@@ -283,11 +294,6 @@ export const DataProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Demo mode if no user is logged in
-  // const setDemoLists = () => {
-  //   setLists(CreateDefaultList());
-  // }
-
   // Call retrievedata when the user logs in
   useEffect(() => {
     retrieveData();
@@ -314,6 +320,7 @@ export const DataProvider = ({ children }) => {
       handleSubmitListForm, handleSubmitTaskForm,
       handleShowTaskForm, handleHideTaskForm,
       handleSetUser, handleSignInDemo,
+      listSectionVisible, handleHideListSection,
       handleCreateUserThenSignInWithEmailAndPassword, handleSignInWithGoogle
     }}>
       {children}

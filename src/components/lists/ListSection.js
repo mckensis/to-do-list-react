@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import ListItem from "./ListItem";
 import ListForm from "./ListForm";
 import ToDoListContext from "../../context/ToDoListContext";
@@ -7,13 +7,17 @@ const ListSection = () => {
   const {
     lists,
     listRef,
+    listSectionVisible,
     listFormVisible,
     handleShowListForm,
     handleSetActiveList,
   } = useContext(ToDoListContext);
 
+  const asideRef = useRef();
+
   return (
-    <aside className="list-section">
+    <>
+{listSectionVisible &&    <aside className="list-section" ref={asideRef}>
       <h2>Lists</h2>
 
       {listFormVisible && <ListForm />}
@@ -25,11 +29,10 @@ const ListSection = () => {
         <li className="list-item" data-id="all">All Tasks</li>  
         {lists?.map(list => (
           <ListItem key={list.id} list={list} />
-        ))}
+          ))}
       </ul>
-      
-      <button type="button" className="expand">Hide</button>
-    </aside>
+    </aside>}
+          </>
   )
 }
 
