@@ -352,7 +352,6 @@ button.delete.list {
 }
 
 button.delete.task {
-  top: 1rem;
   background-image: url('./images/icons/trash.png');
   align-self: end;
 }
