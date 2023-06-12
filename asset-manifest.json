@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/to-do-list-react/static/css/main.063d3297.css",
+    "main.css": "/to-do-list-react/static/css/main.7f94b26a.css",
     "main.js": "/to-do-list-react/static/js/main.bdcf667d.js",
     "static/media/background.jpg": "/to-do-list-react/static/media/background.67b6dd194d09703e2c91.jpg",
     "static/media/Joseph Sophia-Regular.woff": "/to-do-list-react/static/media/Joseph Sophia-Regular.b762f2a81183224cfbab.woff",
@@ -16,11 +16,11 @@
     "static/media/Sarabun-Regular.woff2": "/to-do-list-react/static/media/Sarabun-Regular.f67badc0785eb8b13c26.woff2",
     "static/media/Sarabun-Thin.woff2": "/to-do-list-react/static/media/Sarabun-Thin.09ef3977d537d9be2285.woff2",
     "index.html": "/to-do-list-react/index.html",
-    "main.063d3297.css.map": "/to-do-list-react/static/css/main.063d3297.css.map",
+    "main.7f94b26a.css.map": "/to-do-list-react/static/css/main.7f94b26a.css.map",
     "main.bdcf667d.js.map": "/to-do-list-react/static/js/main.bdcf667d.js.map"
   },
   "entrypoints": [
-    "static/css/main.063d3297.css",
+    "static/css/main.7f94b26a.css",
     "static/js/main.bdcf667d.js"
   ]
 }
